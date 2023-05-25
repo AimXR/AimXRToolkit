@@ -22,6 +22,11 @@ public class WorkPlaceManager : MonoBehaviour
     [SerializeField]
     public LoaderSource loaderSource;
     private Workplace _workplace;
+    public async void Spawn(){
+        var artifact = await SpawnArtifact(3);
+        artifact.transform.position = new Vector3(0, 0, 0);
+        artifact.transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
     public async Task<GameObject> SpawnArtifact(int id)
     {
         GameObject artifact = await LoadArtifactModel(id);
@@ -31,7 +36,7 @@ public class WorkPlaceManager : MonoBehaviour
     }
     public async Task<GameObject> LoadArtifactModel(int id)
     {
-        return await loaderSource.LoadGlb(API.ROUTE.ARTIFACTS + id + "/model");
+        return await loaderSource.LoadGlb(API.API_URL+API.ROUTE.ARTIFACTS + id + "/model");
     }
 
     public void SetWorkplace(Workplace workplace)

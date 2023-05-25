@@ -28,6 +28,7 @@ class AimXRHelper : Editor
 
     private AimXRManager _aimXRManager;
     private ActivityManager _activityManager;
+    private WorkPlaceManager _workPlaceManager;
     private string _activityId = "";
     string _username = "";
     string _password = "";
@@ -36,6 +37,7 @@ class AimXRHelper : Editor
         _aimXRManager = (AimXRManager)target;
         // find the activity manager in the scene
         _activityManager = FindObjectOfType<ActivityManager>();
+        _workPlaceManager = FindObjectOfType<WorkPlaceManager>();
         if (_activityManager == null)
         {
             Debug.LogError("No ActivityManager found in the scene");
@@ -169,6 +171,18 @@ class AimXRHelper : Editor
             GUILayout.Label("Action : " + _activityManager.GetCurrentAction().GetName());
             // description de l'action
             GUILayout.Label("Description : " + _activityManager.GetCurrentAction().GetDescription());
+        }
+
+        // spawn work place button
+        if (GUILayout.Button("Load WorkPlace"))
+        {
+            if (_workPlaceManager == null)
+            {
+                Debug.LogError("No WorkPlaceManager found in the scene");
+                return;
+            }
+            _workPlaceManager.Spawn();
+            return;
         }
     }
     private async Task<bool> login(string username, string password)

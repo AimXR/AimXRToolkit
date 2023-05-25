@@ -19,10 +19,10 @@ namespace AimXRToolkit;
 /// <summary>
 /// Abstract class to load glb files from custom loader depending on the platform
 /// </summary>
-public abstract class LoaderSource
+public abstract class LoaderSource : MonoBehaviour
 {
     /// <summary>
     /// Load a glb file from a uri
     /// </summary>
-    public abstract Task<GameObject> LoadGlb(string uri);
+    public  abstract Task<GameObject> LoadGlb(string uri);
 }
