@@ -14,11 +14,11 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 namespace AimXRToolkit.Models;
-
+using UnityEngine;
 public class WorkplacePagination
 {
-    private Page<Workplace>? _currentPage;
-    private readonly int _size;
+    private Page<WorkplaceShort>? _currentPage;
+    private int _size;
 
     public WorkplacePagination(int size = 10)
     {
@@ -29,12 +29,12 @@ public class WorkplacePagination
     {
         if (_currentPage == null)
         {
-            _currentPage = await AimXRToolkit.Managers.DataManager.Instance.GetWorkplacesAsync(1, _size);
+            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(1, _size);
             return true;
         }
         bool res = _currentPage!.HasNextPage();
         if (res)
-            _currentPage = await AimXRToolkit.Managers.DataManager.Instance.GetWorkplacesAsync(_currentPage.GetPage() + 1, _size);
+            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(_currentPage.GetPage() + 1, _size);
         return res;
     }
 
@@ -42,14 +42,21 @@ public class WorkplacePagination
     {
         if (_currentPage == null)
         {
-            _currentPage = await AimXRToolkit.Managers.DataManager.Instance.GetWorkplacesAsync(1, _size);
+            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(1, _size);
             return true;
         }
         bool res = _currentPage!.HasPreviousPage();
         if (res)
-            _currentPage = await AimXRToolkit.Managers.DataManager.Instance.GetWorkplacesAsync(_currentPage.GetPage() - 1, _size);
+            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(_currentPage.GetPage() - 1, _size);
         return res;
     }
 
     public int GetTotal() => _currentPage?.GetTotal() ?? 0;
+
+    public Page<WorkplaceShort>? GetCurrentPage() => _currentPage;
+
+    public void SetSize(int size)
+    {
+        _size = size;
+    }
 }

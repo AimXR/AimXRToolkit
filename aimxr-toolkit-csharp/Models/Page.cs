@@ -12,7 +12,7 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
-
+using UnityEngine;
 namespace AimXRToolkit.Models;
 
 public class Page<T> where T : IPaginable
@@ -25,7 +25,11 @@ public class Page<T> where T : IPaginable
 
     public Page(LitJson.JsonData data)
     {
-        _items = LitJson.JsonMapper.ToObject<List<T>>(data["items"].ToJson());
+        _items = new List<T>();
+        foreach (LitJson.JsonData item in data["items"])
+        {
+            _items.Add((T)Activator.CreateInstance(typeof(T), item));
+        }
         _total = (int)data["total"];
         _page = (int)data["page"];
         _size = (int)data["size"];

@@ -113,11 +113,11 @@ namespace AimXRToolkit.Managers
             return new Page<Activity>(data);
         }
 
-        public async Task<Page<Workplace>> GetWorkplacesAsync(int page, int pageSize)
+        public async Task<Page<WorkplaceShort>> GetWorkplacesAsync(int page, int pageSize)
         {
             var res = await API.GetAsync(API.ROUTE.WORKPLACES + "?page=" + page + "&size=" + pageSize);
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new Page<Workplace>(data);
+            return new Page<WorkplaceShort>(data);
         }
 
 

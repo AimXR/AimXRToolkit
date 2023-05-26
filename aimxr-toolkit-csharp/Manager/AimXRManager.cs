@@ -25,6 +25,7 @@ public class AimXRManager : MonoBehaviour
     private static AimXRManager? _Instance;
     public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
     private Models.User? _user;
+    private int _workplaceId;
 
     [SerializeField]
     public string API_URL = "http://localhost:8000";
@@ -54,5 +55,21 @@ public class AimXRManager : MonoBehaviour
     public Models.User? GetUser()
     {
         return _user;
+    }
+    /// <summary>
+    /// ID of the workplace selected by the user or the headset
+    /// </summary>
+    /// <param name="id">id of the workplace</param>
+    public void SetWorkplaceId(int id)
+    {
+        _workplaceId = id;
+    }
+    /// <summary>
+    /// ID of the workplace selected by the user or the headset
+    /// </summary>
+    /// <returns>id of the workplace</returns>
+    public int GetWorkplaceId()
+    {
+        return _workplaceId;
     }
 }

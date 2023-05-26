@@ -29,9 +29,13 @@ class AimXRHelper : Editor
     private AimXRManager _aimXRManager;
     private ActivityManager _activityManager;
     private WorkPlaceManager _workPlaceManager;
+    private WorkplacePagination _workplacePagination;
     private string _activityId = "";
     string _username = "";
     string _password = "";
+
+
+    int paginationSize = 10;
     void OnEnable()
     {
         _aimXRManager = (AimXRManager)target;
@@ -184,6 +188,54 @@ class AimXRHelper : Editor
             _workPlaceManager.Spawn();
             return;
         }
+        // horizontal line
+        GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(10));
+
+        // pagination size
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Pagination size : ");
+        paginationSize = EditorGUILayout.IntField(paginationSize, GUILayout.Width(100));
+        _workplacePagination?.SetSize(paginationSize);
+        GUILayout.EndHorizontal();
+
+        // get list of work places
+        if (GUILayout.Button("Get WorkPlaces"))
+        {
+            _workplacePagination ??= new WorkplacePagination(paginationSize);
+            await _workplacePagination.LoadNextPage();
+            return;
+        }
+        if (_workplacePagination != null && _workplacePagination.GetCurrentPage() != null)
+        {
+            // display list of work places in a scroll view
+            GUILayout.BeginVertical();
+            foreach (var workplace in _workplacePagination.GetCurrentPage().GetItems())
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("ID : " + workplace.GetId());
+                GUILayout.Label("Name : " + workplace.GetName());
+                GUILayout.Label("Description : " + workplace.GetDescription());
+                GUILayout.EndHorizontal();
+            }
+            GUILayout.EndVertical();
+
+            // previous and next page buttons
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Previous page"))
+            {
+                await _workplacePagination.LoadPreviousPage();
+                return;
+            }
+            if (GUILayout.Button("Next page"))
+            {
+                await _workplacePagination.LoadNextPage();
+                return;
+            }
+            GUILayout.EndHorizontal();
+        }
+
+        // horizontal line
+        GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(10));
     }
     private async Task<bool> login(string username, string password)
     {
