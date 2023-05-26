@@ -1,26 +1,26 @@
-***REMOVED***
-***REMOVED***
+## MoonSharp HardWiring
+A chaque ajout de fonctionnalité via MoonSharp, il faut mettre à jour le fichier HardWire.cs
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+Procédure:
+- Se déplacer dans le dossier hardwire
+- ```bash
+  cd hardwire
+  ```
+- Lancer le projet dotnet
+- ```bash
+  dotnet run
+  ```
+- Lancer MoonSharp repl
+- ```bash
+  moonsharp -W hardwire.lua ../HardWire.cs --internals --class:Hardwire --namespace:AimXRToolkit
+  ```
 
-***REMOVED***
-***REMOVED***
-***REMOVED***
-***REMOVED***
+## Build
+```bash
+dotnet build --configuration Release
+```
 
-***REMOVED***
-***REMOVED***
-Copy-Item -Path ".\bin\Release\net4.7.2\aimxr-toolkit-csharp.dll" -Destination "C:\Users\Antonin\Desktop\STAGE\indico-vr\IndicoVR\Assets\Plugins"
-***REMOVED***
+## deploy
+```bash
+Copy-Item -Path ".\bin\Release\net4.7.2\aimxr-toolkit-csharp.dll" -Destination "PATH_TO_PLUGINS_FOLDER_IN_UNITY_PROJECT"
+```
