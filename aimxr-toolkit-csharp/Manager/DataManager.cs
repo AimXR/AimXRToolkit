@@ -18,13 +18,13 @@ namespace AimXRToolkit.Managers
         // artifact cache dictionary
         private readonly Dictionary<int, CacheItem<Artifact>> ArtifactCache;
         private readonly Dictionary<int, CacheItem<Activity>> ActivityCache;
-        private readonly Dictionary<int, string> WorkplaceCache;
+        private readonly Dictionary<int, CacheItem<Workplace>> WorkplaceCache;
         private readonly Dictionary<int, CacheItem<Models.Action>> ActionCache;
         private DataManager()
         {
             ArtifactCache = new Dictionary<int, CacheItem<Artifact>>();
             ActivityCache = new Dictionary<int, CacheItem<Activity>>();
-            WorkplaceCache = new Dictionary<int, string>();
+            WorkplaceCache = new Dictionary<int, CacheItem<Workplace>>();
             ActionCache = new Dictionary<int, CacheItem<Models.Action>>();
         }
 
@@ -67,6 +67,25 @@ namespace AimXRToolkit.Managers
                 ActivityCache[id] = new CacheItem<Activity> { CachedTime = DateTime.Now, Data = activity };
             }
             return ActivityCache[id].Data;
+        }
+
+        public async Task<Workplace> GetWorkplaceAsync(int id)
+        {
+            if (!WorkplaceCache.ContainsKey(id) || IsCacheExpired(WorkplaceCache[id]))
+            {
+                // get workplace from api
+                Workplace workplace = await DownloadWorkplace(id);
+                // add to cache
+                WorkplaceCache[id] = new CacheItem<Workplace> { CachedTime = DateTime.Now, Data = workplace };
+            }
+            return WorkplaceCache[id].Data;
+        }
+
+        private async Task<Workplace> DownloadWorkplace(int id)
+        {
+            var res = await API.GetAsync(API.ROUTE.WORKPLACES + id);
+            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+            return new Workplace(data);
         }
 
         private async Task<Artifact> DownloadArtifact(int id)

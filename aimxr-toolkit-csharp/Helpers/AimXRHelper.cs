@@ -31,6 +31,7 @@ class AimXRHelper : Editor
     private WorkPlaceManager _workPlaceManager;
     private WorkplacePagination _workplacePagination;
     private string _activityId = "";
+    private int _workplaceId = 0;
     string _username = "";
     string _password = "";
 
@@ -176,7 +177,9 @@ class AimXRHelper : Editor
             // description de l'action
             GUILayout.Label("Description : " + _activityManager.GetCurrentAction().GetDescription());
         }
-
+        GUILayout.BeginHorizontal();
+        GUILayout.Label("Workplace ID : ");
+        _workplaceId = EditorGUILayout.IntField(_workplaceId, GUILayout.Width(100));
         // spawn work place button
         if (GUILayout.Button("Load WorkPlace"))
         {
@@ -185,9 +188,12 @@ class AimXRHelper : Editor
                 Debug.LogError("No WorkPlaceManager found in the scene");
                 return;
             }
+            _workPlaceManager.SetWorkplace(await DataManager.GetInstance().GetWorkplaceAsync(_workplaceId));
             _workPlaceManager.Spawn();
             return;
         }
+        GUILayout.EndHorizontal();
+
         // horizontal line
         GUILayout.Box("", GUILayout.ExpandWidth(true), GUILayout.Height(10));
 
