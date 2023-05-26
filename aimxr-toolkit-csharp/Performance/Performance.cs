@@ -46,7 +46,7 @@ namespace AimXRToolkit.Performance
                 Debug.LogFormat("Can't send statement with verb {0} because action is null", verb.Value);
                 return null;
             }
-            var res = await SendPerformanceStatementAsync(verb, action.ToPerformanceObject(), new PerformanceContext(_platform,AimXRManager.Instance.GetUser().language, 0, 0, _session));
+            var res = await SendPerformanceStatementAsync(verb, action.ToPerformanceObject(), new PerformanceContext(_platform, AimXRManager.Instance.GetUser().language, 0, 0, _session));
             return res;
         }
         /// <summary>
@@ -95,7 +95,7 @@ namespace AimXRToolkit.Performance
             jsonBody["verb"] = verb.Value;
             jsonBody["object"] = performanceObject.ToJson();
             jsonBody["context"] = context.ToJson();
-            var res = await API.ExecuteLoggedAsync(API.ROUTE.PERFORMANCE + "statements",API.Method.Post, AimXRManager.Instance.GetUser().token, API.Type.Json, jsonBody.ToJson());
+            var res = await API.ExecuteLoggedAsync(API.ROUTE.PERFORMANCE + "statements", API.Method.Post, AimXRManager.Instance.GetUser().token, API.Type.Json, jsonBody.ToJson());
             if (res.responseCode != 200)
             {
                 Debug.LogError("Error while sending performance statement: " + res.error);

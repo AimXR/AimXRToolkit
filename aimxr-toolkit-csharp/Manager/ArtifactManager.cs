@@ -31,8 +31,9 @@ namespace AimXRToolkit
         {
 
         }
-        public async void InitLogic(){
-            
+        public async void InitLogic()
+        {
+
         }
         public void SetArtifact(Models.Artifact artifact)
         {

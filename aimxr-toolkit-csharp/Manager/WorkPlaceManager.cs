@@ -21,11 +21,15 @@ public class WorkPlaceManager : MonoBehaviour
 {
     [SerializeField]
     public LoaderSource loaderSource;
-    private Workplace _workplace;
-    public async void Spawn(){
-        var artifact = await SpawnArtifact(3);
-        artifact.transform.position = new Vector3(0, 0, 0);
-        artifact.transform.rotation = Quaternion.Euler(0, 0, 0);
+    private Models.Workplace _workplace;
+    public async void Spawn()
+    {
+        foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
+        {
+            var artifact = await SpawnArtifact(instance.artifactId);
+            artifact.transform.position = instance.position;
+            artifact.transform.rotation = Quaternion.Euler(instance.rotation);
+        }
     }
     public async Task<GameObject> SpawnArtifact(int id)
     {
@@ -36,15 +40,18 @@ public class WorkPlaceManager : MonoBehaviour
     }
     public async Task<GameObject> LoadArtifactModel(int id)
     {
-        return await loaderSource.LoadGlb(API.API_URL+API.ROUTE.ARTIFACTS + id + "/model");
+        return await loaderSource.LoadGlb(API.API_URL + API.ROUTE.ARTIFACTS + id + "/model");
     }
 
-    public void SetWorkplace(Workplace workplace)
+    public void SetWorkplace(Models.Workplace workplace)
     {
         _workplace = workplace;
     }
-    public Workplace GetWorkplace()
+    public Models.Workplace? GetWorkplace()
     {
         return _workplace;
     }
+    // public async Task<Models.Action> GetCompatibleActions(){
+    //     return await DataManager.GetInstance().GetCompatibleActionsAsync(_workplace.GetId());
+    // }
 }

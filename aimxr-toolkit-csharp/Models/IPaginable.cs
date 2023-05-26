@@ -13,17 +13,7 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace AimXRToolkit.Interactions.Proxies;
-[MoonSharp.Interpreter.MoonSharpUserData]
-public class ProxyButton
+namespace AimXRToolkit.Models;
+public interface IPaginable
 {
-    private Button _button;
-    public ProxyButton(Button button)
-    {
-        _button = button;
-    }
-    public void OnTouch()
-    {
-        _button.Action();
-    }
 }

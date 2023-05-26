@@ -74,7 +74,7 @@ namespace AimXRToolkit.Models
         /// <returns></returns>
         public async Task<JsonData> FetchInformations()
         {
-            var res = await API.ExecuteLoggedAsync(API.ROUTE.USER, API.Method.Get,this.token, API.Type.Json);
+            var res = await API.ExecuteLoggedAsync(API.ROUTE.USER, API.Method.Get, this.token, API.Type.Json);
             if (res != null)
             {
                 LitJson.JsonData data = LitJson.JsonMapper.ToObject(res.downloadHandler.text);
@@ -90,7 +90,7 @@ namespace AimXRToolkit.Models
 
             return null;
         }
-        
+
         /// <summary>
         /// User GET /user/me API route to retreive the user's informations based on his token.
         /// </summary>

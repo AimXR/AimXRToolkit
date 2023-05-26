@@ -108,7 +108,7 @@ class AimXRHelper : Editor
                 activity = await DataManager.GetInstance().GetActivityAsync(int.Parse(_activityId));
                 _activityManager.SetActivity(activity);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 EditorUtility.DisplayDialog("Error", "Invalid activity ID", "OK");
             }

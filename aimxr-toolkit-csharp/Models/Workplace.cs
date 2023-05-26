@@ -2,7 +2,9 @@ using LitJson;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Workplace
+namespace AimXRToolkit.Models;
+
+public class Workplace : IPaginable
 {
     private int id;
     private string name;

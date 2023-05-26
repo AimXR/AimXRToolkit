@@ -26,7 +26,7 @@ public abstract class Component
 
     private Dictionary<string, string> _properties;
 
-    public Component(string name, string script, string tag, string type, Dictionary<string, string> properties)
+    protected Component(string name, string script, string tag, string type, Dictionary<string, string> properties)
     {
         _name = name;
         _script = script;

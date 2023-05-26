@@ -12,7 +12,7 @@ namespace AimXRToolkit.Models
         public Vector3 GetPosition() { return position; }
         public Vector3 GetRotation() { return rotation; }
     }
-    public class Artifact
+    public class Artifact : IPaginable
     {
         private readonly int _id;
         private readonly string _name;

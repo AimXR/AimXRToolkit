@@ -7,7 +7,7 @@ using UnityEngine;
 namespace AimXRToolkit.Models
 {
 
-    public class Activity
+    public class Activity : IPaginable
     {
         private readonly int _id;
         private readonly string _name;
