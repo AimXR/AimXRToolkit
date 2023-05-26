@@ -12,8 +12,7 @@
 
   <PropertyGroup>
     <!-- Définir la variable d'environnement pour le chemin de l'éditeur Unity -->
-    <UnityEditorPath Condition="'$(UnityEditorPath)' == ''">C:\Program
-      Files\Unity\Hub\Editor\2020.3.33f1</UnityEditorPath>
+    <UnityEditorPath Condition="'$(UnityEditorPath)' == ''">C:\Program Files\Unity\Hub\Editor\2020.3.33f1</UnityEditorPath>
   </PropertyGroup>
 
   <ItemGroup>
