@@ -4,12 +4,14 @@ using MoonSharp.Interpreter;
 using UnityEngine;
 using AimXRToolkit.Interactions;
 using AimXRToolkit.Interactions.Proxies;
-
+using AimXRToolkit.Managers;
 namespace AimXRToolkit
 {
     public class ArtifactManager : MonoBehaviour
     {
         private Models.Artifact _artifact;
+
+        [SerializeField]
         private List<Interactable> _interactables;
         private Script _script;
         // Start is called before the first frame update
@@ -31,17 +33,50 @@ namespace AimXRToolkit
         {
 
         }
-        public async void InitLogic()
+        public async Task InitLogic()
         {
+            Dictionary<string, GameObject> flatedArtifact = Flatten(this.gameObject);
+            DataManager dm = DataManager.GetInstance();
+            foreach (var target in _artifact.GetTargets())
+            {
+                var targetObj = await dm.GetTargetAsync(target);
+                var components = targetObj.GetComponents();
+                var obj = flatedArtifact[targetObj.GetName()];
+                foreach (var component in components)
+                {
+                    var componentObj = await dm.GetComponentAsync(component);
+                    var interactable = ParseComponent(componentObj, obj);
+                    if (interactable != null)
+                    {
+                        RegisterInteractable(interactable);
+                    }
+                }
+            }
+        }
 
+        private Dictionary<string, GameObject> Flatten(GameObject obj)
+        {
+            Dictionary<string, GameObject> res = new();
+            FlattenRecursive(obj.transform, res);
+            return res;
+        }
+
+        private void FlattenRecursive(Transform transform, Dictionary<string, GameObject> flattenedObjects)
+        {
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                var child = transform.GetChild(i).gameObject;
+                flattenedObjects.Add(child.name, child);
+                FlattenRecursive(child.transform, flattenedObjects);
+            }
         }
         public void SetArtifact(Models.Artifact artifact)
         {
             this._artifact = artifact;
         }
-        public bool RegisterComponent(AimXRToolkit.Models.Component component)
+        public bool RegisterComponent(Models.Component component)
         {
-            this._script.Globals[component.GetName()] = component;
+            this._script.Globals[component.GetTag()] = component;
             return true;
         }
         private void RegisterInteractable(Interactable interactable)
@@ -54,18 +89,18 @@ namespace AimXRToolkit
             this._script.Globals.Get(tag).Table.Get(function).Function.Call();
         }
 
-        private Interactable? ParseComponent(Models.Component component)
+        private Interactable? ParseComponent(Models.Component component, GameObject obj)
         {
             switch (component.GetType())
             {
                 case "button":
-                    return Button.Parse(component);
+                    return Button.Parse(component, obj);
                 // case "slide":
                 //     return Slide.Parse(component);
                 // case "switch":
                 //     return Switch.Parse(component);
                 case "color":
-                    return Interactions.Color.Parse(component);
+                    return Interactions.Color.Parse(component, obj);
                 default:
                     return null;
             }

@@ -26,6 +26,7 @@ public class AimXRManager : MonoBehaviour
     public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
     private Models.User? _user;
     private int _workplaceId;
+    private EasyLink _easyLink;
 
     [SerializeField]
     public string API_URL = "http://localhost:8000";
@@ -43,6 +44,8 @@ public class AimXRManager : MonoBehaviour
         // TODO: init Moonsharp
         // UserData.RegisterProxyType<>(p => new Proxy());
         DontDestroyOnLoad(gameObject);
+        _easyLink = new EasyLink();
+        _easyLink.Connect();
     }
     void OnEnable()
     {

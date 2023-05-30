@@ -14,29 +14,35 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 
-
+using UnityEngine;
 namespace AimXRToolkit.Models;
-public abstract class Component
+public class Component
 {
-    private string _name;
-    private string _script;
-    private string _tag;
-    private string _type;
-    private int _target;
+    private readonly int _id;
+    private readonly string _script;
+    private readonly string _tag;
+    private readonly string _type;
+    private readonly int _target;
 
-    private Dictionary<string, string> _properties;
+    private readonly Dictionary<string, string> _properties;
 
-    protected Component(string name, string script, string tag, string type, Dictionary<string, string> properties)
+    public Component(LitJson.JsonData data)
     {
-        _name = name;
-        _script = script;
-        _tag = tag;
-        _type = type;
-        _properties = properties;
+
+        _id = (int)data["id"];
+        _script = (string)data["script"];
+        _tag = (string)data["tag"];
+        _type = (string)data["type"];
+        _properties = new Dictionary<string, string>();
+        _target = (int)data["target"];
+        foreach (LitJson.JsonData property in data["properties"])
+        {
+            _properties.Add((string)property["name"], (string)property["value"]);
+        }
     }
-    public string GetName()
+    public int GetId()
     {
-        return _name;
+        return _id;
     }
     /// <summary>
     /// return the lua code to execute when something interact with the component
@@ -57,5 +63,4 @@ public abstract class Component
     {
         return _properties;
     }
-    public abstract void Action();
 }

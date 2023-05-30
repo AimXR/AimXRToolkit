@@ -24,10 +24,11 @@ namespace AimXRToolkit.Interactions
         private AudioClip _sound; // sound to play when the button is pressed
 
 
-        public static new Interactable Parse(Models.Component component)
+        public static new Interactable Parse(Models.Component component, GameObject gameObject)
         {
-            var interactable = new GameObject().AddComponent<Button>();
+            var interactable = gameObject.AddComponent<Interactions.Button>();
             interactable.SetTag(component.GetTag());
+            interactable.SetCollider(gameObject.GetComponent<MeshCollider>() ?? gameObject.AddComponent<MeshCollider>());
             return interactable;
         }
 
@@ -40,6 +41,11 @@ namespace AimXRToolkit.Interactions
             _collider = gameObject.AddComponent<MeshCollider>();
             _collider.convex = true;
             _collider.isTrigger = true;
+        }
+
+        public void SetCollider(MeshCollider collider)
+        {
+            _collider = collider;
         }
     }
 }

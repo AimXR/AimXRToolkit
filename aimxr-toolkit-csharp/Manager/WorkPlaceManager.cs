@@ -20,8 +20,13 @@ namespace AimXRToolkit.Managers;
 public class WorkPlaceManager : MonoBehaviour
 {
     [SerializeField]
-    public LoaderSource loaderSource;
-    private Models.Workplace _workplace;
+    public LoaderSource loaderSource = null!;
+    private Models.Workplace _workplace = null!;
+    private Dictionary<int, ArtifactManager> _artifacts = null!;
+    public void Start()
+    {
+        _artifacts = new Dictionary<int, ArtifactManager>();
+    }
     public async void Spawn()
     {
         foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
@@ -36,6 +41,8 @@ public class WorkPlaceManager : MonoBehaviour
         GameObject artifact = await LoadArtifactModel(id);
         var artifactManager = artifact.AddComponent<ArtifactManager>();
         artifactManager.SetArtifact(await DataManager.GetInstance().GetArtifactAsync(id));
+        await artifactManager.InitLogic();
+        _artifacts.Add(id, artifactManager);
         return artifact;
     }
     public async Task<GameObject> LoadArtifactModel(int id)
@@ -51,7 +58,16 @@ public class WorkPlaceManager : MonoBehaviour
     {
         return _workplace;
     }
-    // public async Task<Models.Action> GetCompatibleActions(){
-    //     return await DataManager.GetInstance().GetCompatibleActionsAsync(_workplace.GetId());
-    // }
+    public async Task<List<Models.Activity>> GetCompatibleActivitiesAsync()
+    {
+        return await DataManager.GetInstance().GetCompatibleActivitiesAsync(_workplace.GetId());
+    }
+    /// <summary>
+    /// Get instanciated artifacts in the workplace
+    /// </summary>
+    /// <returns></returns>
+    public Dictionary<int, ArtifactManager> GetArtifacts()
+    {
+        return _artifacts;
+    }
 }

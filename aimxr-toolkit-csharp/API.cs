@@ -41,6 +41,7 @@ public class API
         public static string ARTIFACTS = "/artifacts/";
         public static string WORKPLACES = "/workplaces/";
         public static string COMPONENTS = "/components/";
+        public static string TARGETS = "/targets/";
         public static string PERFORMANCE = "/performance/";
         public static string USERS = "/users/";
         public static string USER = "/users/me/";
@@ -143,8 +144,10 @@ public class API
         request.SetRequestHeader("Accept-Language", "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3");
         // if additionnal headers are given, include them
         if (headers != null)
+        {
             foreach (string key in headers.Keys)
                 request.SetRequestHeader(key, headers[key]);
+        }
         // apply the desired request METHOD
         request.method = method.Value;
         // apply the desired request TYPE
@@ -156,20 +159,41 @@ public class API
         }
         request.SetRequestHeader("Authorization", "Bearer " + token);
         TaskCompletionSource<UnityWebRequest> tcs = new TaskCompletionSource<UnityWebRequest>();
-        request.SendWebRequest().completed += (op) =>
-        {
-            tcs.SetResult(request);
-        };
+        request.SendWebRequest().completed += (op) => tcs.SetResult(request);
         return await tcs.Task;
     }
 }
 public class NotFoundException : Exception
 {
-    public NotFoundException(string message) : base(message) { }
+    public NotFoundException(string obj, int id) : base(obj + " with id " + id + " not found") { }
 }
 
 public class ActivityNotFoundException : NotFoundException
 {
-    public ActivityNotFoundException(int id) : base("Activity with id " + id + " not found") { }
+    public ActivityNotFoundException(int id) : base("Activity", id) { }
 
+}
+public class TargetNotFoundException : NotFoundException
+{
+    public TargetNotFoundException(int id) : base("Target", id) { }
+}
+
+public class ComponentNotFoundException : NotFoundException
+{
+    public ComponentNotFoundException(int id) : base("Component", id) { }
+}
+
+public class ArtifactNotFoundException : NotFoundException
+{
+    public ArtifactNotFoundException(int id) : base("Artifact", id) { }
+}
+
+public class WorkplaceNotFoundException : NotFoundException
+{
+    public WorkplaceNotFoundException(int id) : base("Workplace", id) { }
+}
+
+public class ActionNotFoundException : NotFoundException
+{
+    public ActionNotFoundException(int id) : base("Action", id) { }
 }

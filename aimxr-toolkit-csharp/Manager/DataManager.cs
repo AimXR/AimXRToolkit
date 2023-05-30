@@ -10,7 +10,7 @@ namespace AimXRToolkit.Managers
 {
     public sealed class DataManager
     {
-        public static DataManager Instance;
+        private static DataManager? Instance;
         // api url
         [SerializeField]
         [Tooltip("The url of the api")]
@@ -20,12 +20,18 @@ namespace AimXRToolkit.Managers
         private readonly Dictionary<int, CacheItem<Activity>> ActivityCache;
         private readonly Dictionary<int, CacheItem<Workplace>> WorkplaceCache;
         private readonly Dictionary<int, CacheItem<Models.Action>> ActionCache;
+        private readonly Dictionary<int, CacheItem<List<Models.Component>>> TargetComponentsCache;
+        private readonly Dictionary<int, CacheItem<Models.Target>> TargetCache;
+        private readonly Dictionary<int, CacheItem<Models.Component>> ComponentCache;
         private DataManager()
         {
             ArtifactCache = new Dictionary<int, CacheItem<Artifact>>();
             ActivityCache = new Dictionary<int, CacheItem<Activity>>();
             WorkplaceCache = new Dictionary<int, CacheItem<Workplace>>();
             ActionCache = new Dictionary<int, CacheItem<Models.Action>>();
+            TargetComponentsCache = new();
+            TargetCache = new();
+            ComponentCache = new();
         }
 
         public static DataManager GetInstance()
@@ -43,6 +49,49 @@ namespace AimXRToolkit.Managers
                 ArtifactCache[id] = new CacheItem<Artifact> { CachedTime = DateTime.Now, Data = artifact };
             }
             return ArtifactCache[id].Data;
+        }
+        public async Task<Models.Target> GetTargetAsync(int id)
+        {
+            if (!TargetComponentsCache.ContainsKey(id) || IsCacheExpired(TargetComponentsCache[id]))
+            {
+                var target = await DownloadTarget(id);
+                TargetCache[id] = new CacheItem<Target> { CachedTime = DateTime.Now, Data = target };
+            }
+            return TargetCache[id].Data;
+        }
+
+        public async Task<Models.Component> GetComponentAsync(int id)
+        {
+            if (!ComponentCache.ContainsKey(id) || IsCacheExpired(ComponentCache[id]))
+            {
+
+                var component = await DownloadComponent(id);
+                ComponentCache[id] = new CacheItem<Models.Component> { CachedTime = DateTime.Now, Data = component };
+
+            }
+            return ComponentCache[id].Data;
+        }
+
+        private async Task<Models.Component> DownloadComponent(int id)
+        {
+            var res = await API.GetAsync(API.ROUTE.COMPONENTS + id);
+            if (res.responseCode == 404)
+            {
+                throw new ComponentNotFoundException(id);
+            }
+            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+            return new Models.Component(data);
+        }
+
+        private async Task<Models.Target> DownloadTarget(int id)
+        {
+            var res = await API.GetAsync(API.ROUTE.TARGETS + id);
+            if (res.responseCode == 404)
+            {
+                throw new TargetNotFoundException(id);
+            }
+            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+            return new Target(data);
         }
 
         public async Task<Models.Action> GetActionAsync(int id)
@@ -84,6 +133,10 @@ namespace AimXRToolkit.Managers
         private async Task<Workplace> DownloadWorkplace(int id)
         {
             var res = await API.GetAsync(API.ROUTE.WORKPLACES + id);
+            if (res.responseCode == 404)
+            {
+                throw new WorkplaceNotFoundException(id);
+            }
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
             return new Workplace(data);
         }
@@ -91,16 +144,20 @@ namespace AimXRToolkit.Managers
         private async Task<Artifact> DownloadArtifact(int id)
         {
             var res = await API.GetAsync(API.ROUTE.ARTIFACTS + id);
+            if (res.responseCode == 404)
+            {
+                throw new ArtifactNotFoundException(id);
+            }
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
             return new Artifact(data);
         }
 
-        private async Task<Models.Action?> DownloadAction(int id)
+        private async Task<Models.Action> DownloadAction(int id)
         {
             var res = await API.GetAsync(API.ROUTE.ACTIONS + id);
             if (res.responseCode == 404)
             {
-                return null;
+                throw new ActionNotFoundException(id);
             }
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
             Debug.Log(data.ToJson());
@@ -151,6 +208,19 @@ namespace AimXRToolkit.Managers
             ActivityCache.Clear();
             WorkplaceCache.Clear();
             ActionCache.Clear();
+            TargetCache.Clear();
+        }
+
+        internal async Task<List<Activity>> GetCompatibleActivitiesAsync(int workplaceId)
+        {
+            var res = await API.GetAsync(API.ROUTE.ACTIVITIES + "?workplace=" + workplaceId);
+            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+            List<Activity> activities = new();
+            foreach (JsonData item in data["items"])
+            {
+                activities.Add(new Activity(item));
+            }
+            return activities;
         }
     }
 
@@ -160,4 +230,3 @@ namespace AimXRToolkit.Managers
         public T Data;
     }
 }
-

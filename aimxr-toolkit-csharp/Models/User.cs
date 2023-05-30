@@ -75,20 +75,21 @@ namespace AimXRToolkit.Models
         public async Task<JsonData> FetchInformations()
         {
             var res = await API.ExecuteLoggedAsync(API.ROUTE.USER, API.Method.Get, this.token, API.Type.Json);
-            if (res != null)
+            if (res.responseCode != 200)
             {
-                LitJson.JsonData data = LitJson.JsonMapper.ToObject(res.downloadHandler.text);
-                this.id = (int)data["id"];
-                this.username = (string)data["username"];
-                this.firstname = (string)data["firstname"];
-                this.lastname = (string)data["lastname"];
-                this.email = (string)data["email"];
-                this.language = (string)data["language_code"];
-                this.permissions = (PERMISSIONS)System.Enum.Parse(typeof(PERMISSIONS), (string)data["permissions"]);
-                return data;
+                throw new Exception("Error while fetching user informations: " + res.error);
             }
 
-            return null;
+            LitJson.JsonData data = LitJson.JsonMapper.ToObject(res.downloadHandler.text);
+            this.id = (int)data["id"];
+            this.username = (string)data["username"];
+            this.firstname = (string)data["firstname"];
+            this.lastname = (string)data["lastname"];
+            this.email = (string)data["email"];
+            this.language = (string)data["language_code"];
+            this.permissions = (PERMISSIONS)System.Enum.Parse(typeof(PERMISSIONS), (string)data["permissions"]);
+            return data;
+
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace AimXRToolkit.Models
             Debug.Log(res.downloadHandler.text);
             if (res.responseCode != 200) return null;
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            User user = new User
+            return new()
             {
                 id = (int)data["id"],
                 token = token,
@@ -114,9 +115,6 @@ namespace AimXRToolkit.Models
                 language = (string)data["language_code"],
                 permissions = (PERMISSIONS)(int)data["adminLevel"]
             };
-            return user;
         }
-
     }
-
 }

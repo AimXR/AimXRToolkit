@@ -20,11 +20,12 @@ namespace AimXRToolkit.Interactions;
 
 public class Color : Interactable
 {
-    public static new Interactable Parse(Models.Component component)
+    public static new Interactable Parse(Models.Component component, GameObject gameObject)
     {
-        var interactable = new GameObject().AddComponent<Color>();
-        interactable.SetTag(component.GetTag());
-        return interactable;
+        // var interactable = new GameObject().AddComponent<Color>();
+        Interactions.Color c = gameObject.AddComponent<Interactions.Color>();
+        c.SetTag(component.GetTag());
+        return c;
     }
     public override void Action()
     {
