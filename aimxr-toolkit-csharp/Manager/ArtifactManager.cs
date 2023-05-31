@@ -5,6 +5,8 @@ using UnityEngine;
 using AimXRToolkit.Interactions;
 using AimXRToolkit.Interactions.Proxies;
 using AimXRToolkit.Managers;
+using System.Text.RegularExpressions;
+
 namespace AimXRToolkit
 {
     public class ArtifactManager : MonoBehaviour
@@ -46,9 +48,30 @@ namespace AimXRToolkit
                 {
                     var componentObj = await dm.GetComponentAsync(component);
                     var interactable = ParseComponent(componentObj, obj);
+
                     if (interactable != null)
                     {
-                        RegisterInteractable(interactable);
+                        interactable.setArtifactManager(this);
+                        this._interactables.Add(interactable);
+                        this._script.Globals[componentObj.GetTag()] = interactable;
+
+
+                        // create a lua function in the script 
+                        string pattern = @"function\s+(\w+)\s*\(\)\s*(.*?)\s*end";
+
+                        MatchCollection matches = Regex.Matches(componentObj.GetScript(), pattern, RegexOptions.Singleline);
+
+                        foreach (Match match in matches)
+                        {
+                            string name = match.Groups[1].Value;
+                            string body = match.Groups[2].Value;
+                            const string code = @"
+                            _G['{0}'] = function()
+                                {1}
+                            end
+                            ";
+                            this._script.Globals[name] = this._script.DoString(string.Format(code, name, body));
+                        }
                     }
                 }
             }
@@ -74,19 +97,13 @@ namespace AimXRToolkit
         {
             this._artifact = artifact;
         }
-        public bool RegisterComponent(Models.Component component)
-        {
-            this._script.Globals[component.GetTag()] = component;
-            return true;
-        }
-        private void RegisterInteractable(Interactable interactable)
-        {
-            interactable.setArtifactManager(this);
-            this._interactables.Add(interactable);
-        }
         public void CallFunction(string tag, string function)
         {
+            var component = this._script.Globals.Get(tag);
+            Debug.Log(component.ToDebugPrintString());
+            Debug.Log(component.Table.ToString());
             this._script.Globals.Get(tag).Table.Get(function).Function.Call();
+
         }
 
         private Interactable? ParseComponent(Models.Component component, GameObject obj)

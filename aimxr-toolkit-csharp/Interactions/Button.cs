@@ -47,5 +47,23 @@ namespace AimXRToolkit.Interactions
         {
             _collider = collider;
         }
+
+        void OnTriggerEnter(Collider collision)
+        {
+            if (collision.gameObject.tag == "controller")
+            {
+                base.getArtifactManager().CallFunction(base.GetTag(), "OnPressed");
+            }
+            Debug.Log("Enter button " + collision.gameObject.name);
+        }
+
+        void OnTriggerExit(Collider collision)
+        {
+            if (collision.gameObject.tag == "controller")
+            {
+                base.getArtifactManager().CallFunction(base.GetTag(), "OnReleased");
+            }
+            Debug.Log("Exit button " + collision.gameObject.name);
+        }
     }
 }

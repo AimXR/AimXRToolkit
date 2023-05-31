@@ -30,6 +30,8 @@ public class AimXRManager : MonoBehaviour
 
     [SerializeField]
     public string API_URL = "http://localhost:8000";
+
+    public LayerMask interactionsLayer;
     private void Awake()
     {
         API.API_URL = API_URL;

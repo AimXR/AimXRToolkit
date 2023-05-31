@@ -44,6 +44,7 @@ public class Component
     {
         return _id;
     }
+
     /// <summary>
     /// return the lua code to execute when something interact with the component
     /// </summary>

@@ -13,27 +13,19 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-using AimXRToolkit.Models;
 using UnityEngine;
 
-namespace AimXRToolkit.Interactions;
+namespace AimXRToolkit;
 
-public class Color : Interactable
+public class Controller : MonoBehaviour
 {
-    public static new Interactable Parse(Models.Component component, GameObject gameObject)
+
+    void Start()
     {
-        // var interactable = new GameObject().AddComponent<Color>();
-        Interactions.Color c = gameObject.AddComponent<Interactions.Color>();
-        c.SetTag(component.GetTag());
-        return c;
+
     }
-    public override void Action()
+    void Update()
     {
-        throw new System.NotImplementedException();
-    }
-    public void SetColor(string hexa)
-    {
-        if (ColorUtility.TryParseHtmlString(hexa, out UnityEngine.Color color))
-            GetComponent<Renderer>().material.color = color;
+
     }
 }
