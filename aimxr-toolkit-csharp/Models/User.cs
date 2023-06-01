@@ -86,8 +86,11 @@ namespace AimXRToolkit.Models
             this.firstname = (string)data["firstname"];
             this.lastname = (string)data["lastname"];
             this.email = (string)data["email"];
-            this.language = (string)data["language_code"];
-            this.permissions = (PERMISSIONS)System.Enum.Parse(typeof(PERMISSIONS), (string)data["permissions"]);
+            Debug.Log(data["language_code"]);
+            Debug.Log(data["language_code"].GetType());
+            Debug.Log((string)data["language_code"]);
+            this.language = data["language_code"] == null ? "" : (string)data["language_code"];
+            this.permissions = (PERMISSIONS)System.Enum.Parse(typeof(PERMISSIONS), (string)data["adminLevel"]);
             return data;
 
         }
@@ -112,7 +115,9 @@ namespace AimXRToolkit.Models
                 firstname = (string)data["firstname"],
                 lastname = (string)data["lastname"],
                 email = (string)data["email"],
-                language = (string)data["language_code"],
+                // language = (string)data["language_code"],
+                // handle null string
+                language = data["language_code"] == null ? "" : (string)data["language_code"],
                 permissions = (PERMISSIONS)(int)data["adminLevel"]
             };
         }
