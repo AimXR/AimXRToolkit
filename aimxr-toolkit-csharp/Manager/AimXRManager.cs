@@ -29,12 +29,11 @@ public class AimXRManager : MonoBehaviour
     private EasyLink _easyLink;
 
     [SerializeField]
-    public string API_URL = "http://localhost:8000";
+    public string API_URL;
 
     public LayerMask interactionsLayer;
     private void Awake()
     {
-        API.API_URL = API_URL;
         // prevent creating multiple instances , delete the new one
         if (_Instance != null)
         {
@@ -43,6 +42,9 @@ public class AimXRManager : MonoBehaviour
         }
         _Instance = this;
         Hardwire.Initialize();
+
+        API.API_URL = API_URL;
+
         // TODO: init Moonsharp
         // UserData.RegisterProxyType<>(p => new Proxy());
         DontDestroyOnLoad(gameObject);
