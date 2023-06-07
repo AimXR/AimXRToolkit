@@ -58,10 +58,7 @@ class AimXRHelper : Editor
             EditorGUILayout.HelpBox("This helper works only in play mode", MessageType.Info);
             return;
         }
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("API URL : ");
 
-        GUILayout.EndHorizontal();
         // draw username label with field next to it
         GUILayout.BeginHorizontal();
         GUILayout.Label("Username : ");
