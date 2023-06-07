@@ -29,7 +29,7 @@ public class AimXRManager : MonoBehaviour
     private EasyLink _easyLink;
 
     [SerializeField]
-    public string API_URL;
+    public string API_URL = "http://localhost:8000";
 
     public LayerMask interactionsLayer;
     private void Awake()
