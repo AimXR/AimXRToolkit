@@ -26,6 +26,7 @@ public class AimXRManager : MonoBehaviour
     public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
     private Models.User? _user;
     private int _workplaceId;
+    private int _activityId;
     private EasyLink _easyLink;
 
     [SerializeField]
@@ -78,5 +79,21 @@ public class AimXRManager : MonoBehaviour
     public int GetWorkplaceId()
     {
         return _workplaceId;
+    }
+    /// <summary>
+    /// ID of the activity selected by the user or the headset
+    /// </summary>
+    /// <param name="id">id of the activity</param>
+    public void SetActivityId(int id)
+    {
+        _activityId = id;
+    }
+    /// <summary>
+    /// ID of the activity selected by the user or the headset
+    /// </summary>
+    /// <returns>id of the activity</returns>
+    public int GetActivityId()
+    {
+        return _activityId;
     }
 }

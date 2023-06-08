@@ -19,7 +19,9 @@ using UnityEngine;
 using AimXRToolkit.Managers;
 using LitJson;
 using AimXRToolkit.Models;
-namespace AimXRToolkit.Helpers;
+using System;
+using System.Threading.Tasks;
+namespace AimXRToolkit.Helpers {
 
 // namespace AimXRToolkit.Helpers;
 [CustomEditor(typeof(AimXRManager))]
@@ -261,4 +263,5 @@ class AimXRHelper : Editor
         AimXRManager.Instance.SetUser(candidateUser);
         return true;
     }
+}
 }

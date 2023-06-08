@@ -16,13 +16,13 @@ using LitJson;
 using UnityEngine;
 namespace AimXRToolkit.Models;
 
-public class WorkplaceShort : IPaginable
+public class ActivityShort : IPaginable
 {
     private readonly int _id;
     private readonly string _name;
     private readonly string _description;
     private readonly List<string> languages;
-    public WorkplaceShort(JsonData data)
+    public ActivityShort(JsonData data)
     {
         _id = (int) data["id"];
         _name = data["name"].ToString();
@@ -51,7 +51,7 @@ public class WorkplaceShort : IPaginable
     }
     public override string ToString()
     {
-        return string.Format("WorkplaceShort: {0} {1} {2} {3}", _id, _name, _description, languages);
+        return string.Format("ActivityShort: {0} {1} {2} {3}", _id, _name, _description, languages);
     }
 
 }
