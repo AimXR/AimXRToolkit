@@ -94,7 +94,6 @@ namespace AimXRToolkit
                     item.AddComponent<MeshCollider>();
                 }
             }
-            this._script.DoString("_G['color_smoke_power'].interactable.SetColor('#FF0A0B')");
         }
 
         private Dictionary<string, GameObject> Flatten(GameObject obj)
