@@ -35,5 +35,6 @@ public class Color : Interactable
     {
         if (ColorUtility.TryParseHtmlString(hexa, out UnityEngine.Color color))
             GetComponent<Renderer>().material.color = color;
+        Debug.Log("Color set to " + hexa);
     }
 }

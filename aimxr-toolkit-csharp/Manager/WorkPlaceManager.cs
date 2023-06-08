@@ -33,7 +33,7 @@ public class WorkPlaceManager : MonoBehaviour
         {
             var artifact = await SpawnArtifact(instance.artifactId);
             artifact.transform.position = instance.position;
-            artifact.transform.rotation = Quaternion.Euler(instance.rotation);
+            artifact.transform.rotation = Quaternion.Euler(instance.rotation * Mathf.Rad2Deg);
         }
     }
     public async Task<GameObject> SpawnArtifact(int id)

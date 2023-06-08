@@ -39,25 +39,6 @@ ${
 					},
 				},
 			},
-			OnTouch = ${
-				class = "MoonSharp.Interpreter.Interop.OverloadedMethodMemberDescriptor",
-				name = "OnTouch",
-				decltype = "AimXRToolkit.Interactions.Proxies.ProxyButton",
-				overloads = ${
-					[1] = ${
-						class = "MoonSharp.Interpreter.Interop.MethodMemberDescriptor",
-						name = "OnTouch",
-						ctor = false,
-						special = false,
-						visibility = "public",
-						ret = "System.Void",
-						decltype = "AimXRToolkit.Interactions.Proxies.ProxyButton",
-						static = false,
-						extension = false,
-						params = ${ },
-					},
-				},
-			},
 			GetType = ${
 				class = "MoonSharp.Interpreter.Interop.OverloadedMethodMemberDescriptor",
 				name = "GetType",

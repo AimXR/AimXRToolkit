@@ -34,7 +34,7 @@ namespace AimXRToolkit.Interactions
 
         public override void Action()
         {
-            base.getArtifactManager().CallFunction(base.GetTag(), "OnButtonPressed");
+            base.getArtifactManager().CallFunction(base.GetTag(), "OnPressed");
         }
         void Start()
         {
