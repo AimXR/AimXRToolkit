@@ -19,17 +19,19 @@ public class ActivityPagination
 {
     private Page<ActivityShort>? _currentPage;
     private int _size;
+    private int _workplaceId;
 
-    public ActivityPagination(int size = 10)
+    public ActivityPagination(int size = 10, int workplaceId = 0)
     {
         _size = size;
+        _workplaceId = workplaceId;
     }
 
     public async Task<bool> LoadNextPage()
     {
         if (_currentPage == null)
         {
-            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetActivitiesAsync(1, _size);
+            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetActivitiesAsync(1, _size, _workplaceId);
             return true;
         }
         bool res = _currentPage!.HasNextPage();
@@ -42,7 +44,7 @@ public class ActivityPagination
     {
         if (_currentPage == null)
         {
-            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetActivitiesAsync(1, _size);
+            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetActivitiesAsync(1, _size, _workplaceId);
             return true;
         }
         bool res = _currentPage!.HasPreviousPage();

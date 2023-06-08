@@ -58,6 +58,7 @@ public class API
             public static string __PLAYED_STEPS = "/playedSteps/";
             public static string PLAYED_STEPS = "/stats/sessions/playedSteps/";
         }
+        public static string ACTIVITIES_SEARCH = "/activities/search";
     }
 
     /// <summary>
