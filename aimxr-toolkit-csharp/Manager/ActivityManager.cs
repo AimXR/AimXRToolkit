@@ -54,6 +54,10 @@ namespace AimXRToolkit.Managers
 
             if (_currentAction != null)
             {
+                if (_currentAction.GetPrevious() < 1)
+                {
+                    return false;
+                }
                 onActionEnd.Invoke(_currentAction);
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetPrevious());
                 onActionStart.Invoke(_currentAction);
@@ -72,6 +76,11 @@ namespace AimXRToolkit.Managers
             else
             {
                 onActionEnd.Invoke(_currentAction);
+                if (_currentAction.GetNext() < 1)
+                {
+                    onActivityEnd.Invoke(_activity);
+                    return false;
+                }
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
                 onActionStart.Invoke(_currentAction);
                 onActionChange.Invoke(_currentAction);
