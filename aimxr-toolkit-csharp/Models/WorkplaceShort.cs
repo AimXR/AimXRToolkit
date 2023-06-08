@@ -18,19 +18,19 @@ namespace AimXRToolkit.Models;
 
 public class WorkplaceShort : IPaginable
 {
-    private readonly string _id;
+    private readonly int _id;
     private readonly string _name;
     private readonly string _description;
     private readonly List<string> languages;
     public WorkplaceShort(JsonData data)
     {
-        _id = data["id"].ToString();
+        _id = (int) data["id"];
         _name = data["name"].ToString();
         _description = data["description"].ToString();
         languages = JsonMapper.ToObject<List<string>>(data["languages"].ToJson());
     }
 
-    public string GetId()
+    public int GetId()
     {
         return _id;
     }
