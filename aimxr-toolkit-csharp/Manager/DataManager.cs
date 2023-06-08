@@ -182,11 +182,11 @@ namespace AimXRToolkit.Managers
             return new Activity(data);
         }
 
-        public async Task<Page<Activity>> GetActivitiesAsync(int page, int pageSize)
+        public async Task<Page<ActivityShort>> GetActivitiesAsync(int page, int pageSize)
         {
             var res = await API.GetAsync(API.ROUTE.ACTIVITIES + "?page=" + page + "&size=" + pageSize);
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new Page<Activity>(data);
+            return new Page<ActivityShort>(data);
         }
 
         public async Task<Page<WorkplaceShort>> GetWorkplacesAsync(int page, int pageSize)
