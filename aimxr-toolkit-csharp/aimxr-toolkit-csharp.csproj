@@ -7,7 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <!-- ignore all hardwire directory -->
-    <DefaultItemExcludes>$(DefaultItemExcludes);hardwire\**</DefaultItemExcludes>
+    <DefaultItemExcludes>$(DefaultItemExcludes);hardwire\**;Helpers\**</DefaultItemExcludes>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -16,12 +17,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="UnityEngine">
+      <HintPath>$(UnityEditorPath)\Editor\Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- property group condition if Editor -->
+  <ItemGroup Condition="'$(Editor)' == 'true'">
+    <!-- include helpers -->
+    <Compile Include="Helpers\**" />
     <!-- Utiliser la variable d'environnement pour définir le chemin des DLL Unity -->
     <Reference Include="UnityEditor">
       <HintPath>$(UnityEditorPath)\Editor\Data\Managed\UnityEditor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>$(UnityEditorPath)\Editor\Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
   </ItemGroup>
 

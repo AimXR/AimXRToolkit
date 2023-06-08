@@ -20,6 +20,12 @@ Procédure:
 dotnet build --configuration Release
 ```
 
+## Build with Helpers inside the dll
+```bash
+dotnet build --configuration Release /p:Editor=true
+```
+> You can't reference UnityEditor when building a unity project
+
 ## deploy
 ```bash
 Copy-Item -Path ".\bin\Release\net4.7.2\aimxr-toolkit-csharp.dll" -Destination "PATH_TO_PLUGINS_FOLDER_IN_UNITY_PROJECT"
