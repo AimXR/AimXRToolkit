@@ -75,23 +75,35 @@ namespace AimXRToolkit.Managers
         private async Task<Models.Component> DownloadComponent(int id)
         {
             var res = await API.GetAsync(API.ROUTE.COMPONENTS + id);
-            if (res.responseCode == 404)
+
+            if (res.responseCode >= 200 && res.responseCode < 300)
             {
-                throw new ComponentNotFoundException(id);
+                JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+                return new Models.Component(data);
             }
-            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new Models.Component(data);
+
+            switch (res.responseCode) {
+                case 404: throw new ComponentNotFoundException(id);
+                case 0: throw new TimeoutException();
+                default: throw new Exception();
+            }
         }
 
         private async Task<Models.Target> DownloadTarget(int id)
         {
             var res = await API.GetAsync(API.ROUTE.TARGETS + id);
-            if (res.responseCode == 404)
+
+            if (res.responseCode >= 200 && res.responseCode < 300)
             {
-                throw new TargetNotFoundException(id);
+                JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+                return new Target(data);
             }
-            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new Target(data);
+
+            switch (res.responseCode) {
+                case 404: throw new TargetNotFoundException(id);
+                case 0: throw new TimeoutException();
+                default: throw new Exception();
+            }
         }
 
         public async Task<Models.Action> GetActionAsync(int id)
@@ -133,35 +145,52 @@ namespace AimXRToolkit.Managers
         private async Task<Workplace> DownloadWorkplace(int id)
         {
             var res = await API.GetAsync(API.ROUTE.WORKPLACES + id);
-            if (res.responseCode == 404)
+
+            if (res.responseCode >= 200 && res.responseCode < 300)
             {
-                throw new WorkplaceNotFoundException(id);
+                JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+                return new Workplace(data);
             }
-            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new Workplace(data);
+
+            switch (res.responseCode) {
+                case 404: throw new WorkplaceNotFoundException(id);
+                case 0: throw new TimeoutException();
+                default: throw new Exception();
+            }
         }
 
         private async Task<Artifact> DownloadArtifact(int id)
         {
             var res = await API.GetAsync(API.ROUTE.ARTIFACTS + id);
-            if (res.responseCode == 404)
+
+            if (res.responseCode >= 200 && res.responseCode < 300)
             {
-                throw new ArtifactNotFoundException(id);
+                JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+                return new Artifact(data);
             }
-            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new Artifact(data);
+
+            switch (res.responseCode) {
+                case 404: throw new ArtifactNotFoundException(id);
+                case 0: throw new TimeoutException();
+                default: throw new Exception();
+            }
         }
 
         private async Task<Models.Action> DownloadAction(int id)
         {
             var res = await API.GetAsync(API.ROUTE.ACTIONS + id);
-            if (res.responseCode == 404)
+
+            if (res.responseCode >= 200 && res.responseCode < 300)
             {
-                throw new ActionNotFoundException(id);
+                JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
+                return new Models.Action(data);
             }
-            JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            Debug.Log(data.ToJson());
-            return new Models.Action(data);
+
+            switch (res.responseCode) {
+                case 404: throw new ActionNotFoundException(id);
+                case 0: throw new TimeoutException();
+                default: throw new Exception();
+            }
         }
 
 
