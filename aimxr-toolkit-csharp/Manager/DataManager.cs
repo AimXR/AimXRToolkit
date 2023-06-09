@@ -187,6 +187,10 @@ namespace AimXRToolkit.Managers
             var res = workplaceId > 0
                 ? await API.GetAsync(API.ROUTE.ACTIVITIES_SEARCH + "?page=" + page + "&size=" + pageSize + "&workplace=" + workplaceId)
                 : await API.GetAsync(API.ROUTE.ACTIVITIES + "?page=" + page + "&size=" + pageSize);
+            if (res.responseCode == 404)
+            {
+                throw new WorkplaceNotFoundException(workplaceId);
+            }
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
             return new Page<ActivityShort>(data);
         }
