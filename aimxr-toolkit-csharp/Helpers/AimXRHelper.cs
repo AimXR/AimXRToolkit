@@ -157,7 +157,7 @@ class AimXRHelper : Editor
                 {
                     audioSource = this._aimXRManager.gameObject.AddComponent<AudioSource>();
                 }
-                tts.speak(_activityManager.GetCurrentAction().GetName(), TTS.Language.French, audioSource);
+                tts.speak(_activityManager.GetCurrentAction().GetName(), Language.FR, audioSource);
             }
             if (GUILayout.Button("Next action"))
             {

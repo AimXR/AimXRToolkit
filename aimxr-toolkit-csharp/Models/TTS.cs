@@ -8,14 +8,6 @@ namespace AimXRToolkit.Models
 {
     public class TTS
     {
-        public enum Language
-        {
-            French,
-            English,
-            Spanish,
-            German
-        }
-
         public async void speak(string text, Language language, AudioSource audioSource)
         {
             UnityWebRequest request = new UnityWebRequest();
