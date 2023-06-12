@@ -36,9 +36,4 @@ public abstract class Interactable : MonoBehaviour
     {
         return tag;
     }
-    abstract public void Action();
-    public static Interactable Parse(Models.Component component, GameObject gameObject)
-    {
-        throw new System.NotImplementedException();
-    }
 }

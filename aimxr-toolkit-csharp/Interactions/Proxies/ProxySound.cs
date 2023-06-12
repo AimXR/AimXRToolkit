@@ -13,25 +13,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-using AimXRToolkit.Models;
+using MoonSharp.Interpreter;
 using UnityEngine;
+using MoonSharp.Interpreter;
 
-namespace AimXRToolkit.Interactions;
-
-public class Color : Interactable
+namespace AimXRToolkit.Interactions.Proxies;
+[MoonSharp.Interpreter.MoonSharpUserData]
+public class ProxySound
 {
-    public static new Interactable Parse(Models.Component component, GameObject gameObject)
+    private Sound _sound;
+    public ProxySound(Sound sound)
     {
-        // var interactable = new GameObject().AddComponent<Color>();
-        Interactions.Color c = gameObject.AddComponent<Interactions.Color>();
-        c.SetTag(component.GetTag());
-        return c;
+        _sound = sound;
     }
 
-    public void SetColor(string hexa)
+    public void Play()
     {
-        if (ColorUtility.TryParseHtmlString(hexa, out UnityEngine.Color color))
-            GetComponent<Renderer>().material.color = color;
-        Debug.Log("Color set to " + hexa);
+        _sound.Play();
     }
 }

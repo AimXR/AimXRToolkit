@@ -26,6 +26,8 @@ namespace AimXRToolkit
             // UserData.RegisterProxyType<ProxyButton, SwitchCollider>(r => new ProxySwitch(r));
             UserData.RegisterProxyType<ProxyButton, Button>(r => new ProxyButton(r));
             UserData.RegisterProxyType<ProxyColor, Interactions.Color>(r => new ProxyColor(r));
+            UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
+            UserData.RegisterProxyType<ProxySwitch, Switch>(r => new ProxySwitch(r));
         }
 
         void Update()
@@ -45,6 +47,7 @@ namespace AimXRToolkit
                 {
                     var componentObj = await dm.GetComponentAsync(component);
                     var interactable = ParseComponent(componentObj, obj);
+                    Debug.Log(interactable);
 
                     if (interactable != null)
                     {
@@ -89,6 +92,7 @@ namespace AimXRToolkit
             foreach (var item in flatedArtifact.Values)
             {
                 // test if it has a collider
+                Debug.Log(item.name);
                 if (item.GetComponent<Collider>() == null)
                 {
                     item.AddComponent<MeshCollider>();
@@ -131,7 +135,7 @@ namespace AimXRToolkit
             }
             catch (Exception e)
             {
-                Debug.Log("Failed to call function " + e.Message);
+                Debug.Log("Failed to call function : " + function + "  :  " + e.Message);
             }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
@@ -150,6 +154,10 @@ namespace AimXRToolkit
                 //     return Switch.Parse(component);
                 case "Color":
                     return Interactions.Color.Parse(component, obj);
+                case "Sound":
+                    return Sound.Parse(component, obj);
+                case "Switch":
+                    return Switch.Parse(component, obj);
                 default:
                     return null;
             }
