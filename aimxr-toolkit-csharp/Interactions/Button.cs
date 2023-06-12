@@ -32,10 +32,6 @@ namespace AimXRToolkit.Interactions
             return interactable;
         }
 
-        public override void Action()
-        {
-            base.getArtifactManager().CallFunction(base.GetTag(), "OnPressed");
-        }
         void Start()
         {
             _collider = gameObject.AddComponent<MeshCollider>();
