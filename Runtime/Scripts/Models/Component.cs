@@ -15,53 +15,56 @@
 
 
 using UnityEngine;
-namespace AimXRToolkit.Models;
-public class Component
+namespace AimXRToolkit.Models
 {
-    private readonly int _id;
-    private readonly string _script;
-    private readonly string _tag;
-    private readonly string _type;
-    private readonly int _target;
 
-    private readonly Dictionary<string, string> _properties;
-
-    public Component(LitJson.JsonData data)
+    public class Component
     {
+        private readonly int _id;
+        private readonly string _script;
+        private readonly string _tag;
+        private readonly string _type;
+        private readonly int _target;
 
-        _id = (int)data["id"];
-        _script = (string)data["script"];
-        _tag = (string)data["tag"];
-        _type = (string)data["type"];
-        _properties = new Dictionary<string, string>();
-        _target = (int)data["target"];
-        foreach (LitJson.JsonData property in data["properties"])
+        private readonly Dictionary<string, string> _properties;
+
+        public Component(LitJson.JsonData data)
         {
-            _properties.Add((string)property["name"], (string)property["value"]);
-        }
-    }
-    public int GetId()
-    {
-        return _id;
-    }
 
-    /// <summary>
-    /// return the lua code to execute when something interact with the component
-    /// </summary>
-    public string GetScript()
-    {
-        return _script;
-    }
-    public string GetTag()
-    {
-        return _tag;
-    }
-    public string GetType()
-    {
-        return _type;
-    }
-    public Dictionary<string, string> GetProperties()
-    {
-        return _properties;
+            _id = (int)data["id"];
+            _script = (string)data["script"];
+            _tag = (string)data["tag"];
+            _type = (string)data["type"];
+            _properties = new Dictionary<string, string>();
+            _target = (int)data["target"];
+            foreach (LitJson.JsonData property in data["properties"])
+            {
+                _properties.Add((string)property["name"], (string)property["value"]);
+            }
+        }
+        public int GetId()
+        {
+            return _id;
+        }
+
+        /// <summary>
+        /// return the lua code to execute when something interact with the component
+        /// </summary>
+        public string GetScript()
+        {
+            return _script;
+        }
+        public string GetTag()
+        {
+            return _tag;
+        }
+        public string GetType()
+        {
+            return _type;
+        }
+        public Dictionary<string, string> GetProperties()
+        {
+            return _properties;
+        }
     }
 }

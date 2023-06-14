@@ -14,15 +14,16 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 using UnityEngine;
-namespace AimXRToolkit;
-
-/// <summary>
-/// Abstract class to load glb files from custom loader depending on the platform
-/// </summary>
-public abstract class LoaderSource : MonoBehaviour
+namespace AimXRToolkit
 {
     /// <summary>
-    /// Load a glb file from a uri
+    /// Abstract class to load glb files from custom loader depending on the platform
     /// </summary>
-    public abstract Task<GameObject> LoadGlb(string uri);
+    public abstract class LoaderSource : MonoBehaviour
+    {
+        /// <summary>
+        /// Load a glb file from a uri
+        /// </summary>
+        public abstract Task<GameObject> LoadGlb(string uri);
+    }
 }

@@ -16,22 +16,24 @@
 using AimXRToolkit.Models;
 using UnityEngine;
 
-namespace AimXRToolkit.Interactions;
-
-public class Color : Interactable
+namespace AimXRToolkit.Interactions
 {
-    public static new Interactable Parse(Models.Component component, GameObject gameObject)
-    {
-        // var interactable = new GameObject().AddComponent<Color>();
-        Interactions.Color c = gameObject.AddComponent<Interactions.Color>();
-        c.SetTag(component.GetTag());
-        return c;
-    }
 
-    public void SetColor(string hexa)
+    public class Color : Interactable
     {
-        if (ColorUtility.TryParseHtmlString(hexa, out UnityEngine.Color color))
-            GetComponent<Renderer>().material.color = color;
-        Debug.Log("Color set to " + hexa);
+        public static new Interactable Parse(Models.Component component, GameObject gameObject)
+        {
+            // var interactable = new GameObject().AddComponent<Color>();
+            Interactions.Color c = gameObject.AddComponent<Interactions.Color>();
+            c.SetTag(component.GetTag());
+            return c;
+        }
+
+        public void SetColor(string hexa)
+        {
+            if (ColorUtility.TryParseHtmlString(hexa, out UnityEngine.Color color))
+                GetComponent<Renderer>().material.color = color;
+            Debug.Log("Color set to " + hexa);
+        }
     }
 }

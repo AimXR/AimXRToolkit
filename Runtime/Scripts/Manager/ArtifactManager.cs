@@ -7,7 +7,7 @@ using AimXRToolkit.Interactions.Proxies;
 using AimXRToolkit.Managers;
 using System.Text.RegularExpressions;
 
-namespace AimXRToolkit
+namespace AimXRToolkit.Managers
 {
     public class ArtifactManager : MonoBehaviour
     {

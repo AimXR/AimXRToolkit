@@ -14,13 +14,15 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 using UnityEngine;
-namespace AimXRToolkit.Models;
-
-public struct Anchor
+namespace AimXRToolkit.Models
 {
-    public Vector3 position;
-    public Vector3 rotation;
+    public struct Anchor
+    {
+        public Vector3 position;
+        public Vector3 rotation;
 
-    public Vector3 GetPosition() { return position; }
-    public Vector3 GetRotation() { return rotation; }
+        public Vector3 GetPosition() { return position; }
+        public Vector3 GetRotation() { return rotation; }
+    }
 }
+

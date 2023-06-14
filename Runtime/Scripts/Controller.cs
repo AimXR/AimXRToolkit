@@ -15,17 +15,19 @@
 
 using UnityEngine;
 
-namespace AimXRToolkit;
-
-public class Controller : MonoBehaviour
+namespace AimXRToolkit
 {
-
-    void Start()
+    public class Controller : MonoBehaviour
     {
 
-    }
-    void Update()
-    {
+        void Start()
+        {
 
+        }
+        void Update()
+        {
+
+        }
     }
 }
+

@@ -14,44 +14,46 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 using LitJson;
 using UnityEngine;
-namespace AimXRToolkit.Models;
-
-public class WorkplaceShort : IPaginable
+namespace AimXRToolkit.Models
 {
-    private readonly int _id;
-    private readonly string _name;
-    private readonly string _description;
-    private readonly List<string> languages;
-    public WorkplaceShort(JsonData data)
-    {
-        _id = (int) data["id"];
-        _name = data["name"].ToString();
-        _description = data["description"].ToString();
-        languages = JsonMapper.ToObject<List<string>>(data["languages"].ToJson());
-    }
 
-    public int GetId()
+    public class WorkplaceShort : IPaginable
     {
-        return _id;
-    }
+        private readonly int _id;
+        private readonly string _name;
+        private readonly string _description;
+        private readonly List<string> languages;
+        public WorkplaceShort(JsonData data)
+        {
+            _id = (int)data["id"];
+            _name = data["name"].ToString();
+            _description = data["description"].ToString();
+            languages = JsonMapper.ToObject<List<string>>(data["languages"].ToJson());
+        }
 
-    public string GetName()
-    {
-        return _name;
-    }
+        public int GetId()
+        {
+            return _id;
+        }
 
-    public string GetDescription()
-    {
-        return _description;
-    }
+        public string GetName()
+        {
+            return _name;
+        }
 
-    public List<string> GetLanguages()
-    {
-        return languages;
-    }
-    public override string ToString()
-    {
-        return string.Format("WorkplaceShort: {0} {1} {2} {3}", _id, _name, _description, languages);
-    }
+        public string GetDescription()
+        {
+            return _description;
+        }
 
+        public List<string> GetLanguages()
+        {
+            return languages;
+        }
+        public override string ToString()
+        {
+            return string.Format("WorkplaceShort: {0} {1} {2} {3}", _id, _name, _description, languages);
+        }
+
+    }
 }

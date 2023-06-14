@@ -15,59 +15,61 @@
 
 using UnityEngine;
 using UnityEditor;
-namespace AimXRToolkit.Managers;
-
-public class WorkPlaceManager : MonoBehaviour
+namespace AimXRToolkit.Managers
 {
-    [SerializeField]
-    public LoaderSource loaderSource = null!;
-    private Models.Workplace _workplace = null!;
-    private Dictionary<int, ArtifactManager> _artifacts = null!;
-    public void Start()
-    {
-        _artifacts = new Dictionary<int, ArtifactManager>();
-    }
-    public async void Spawn()
-    {
-        foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
-        {
-            var artifact = await SpawnArtifact(instance.artifactId);
-            artifact.transform.position = instance.position;
-            artifact.transform.rotation = Quaternion.Euler(instance.rotation * Mathf.Rad2Deg);
-        }
-    }
-    public async Task<GameObject> SpawnArtifact(int id)
-    {
-        GameObject artifact = await LoadArtifactModel(id);
-        var artifactManager = artifact.AddComponent<ArtifactManager>();
-        artifactManager.SetArtifact(await DataManager.GetInstance().GetArtifactAsync(id));
-        await artifactManager.InitLogic();
-        _artifacts.Add(id, artifactManager);
-        return artifact;
-    }
-    public async Task<GameObject> LoadArtifactModel(int id)
-    {
-        return await loaderSource.LoadGlb(API.API_URL + API.ROUTE.ARTIFACTS + id + "/model");
-    }
 
-    public void SetWorkplace(Models.Workplace workplace)
+    public class WorkPlaceManager : MonoBehaviour
     {
-        _workplace = workplace;
-    }
-    public Models.Workplace? GetWorkplace()
-    {
-        return _workplace;
-    }
-    public async Task<List<Models.Activity>> GetCompatibleActivitiesAsync()
-    {
-        return await DataManager.GetInstance().GetCompatibleActivitiesAsync(_workplace.GetId());
-    }
-    /// <summary>
-    /// Get instanciated artifacts in the workplace
-    /// </summary>
-    /// <returns></returns>
-    public Dictionary<int, ArtifactManager> GetArtifacts()
-    {
-        return _artifacts;
+        [SerializeField]
+        public LoaderSource loaderSource = null!;
+        private Models.Workplace _workplace = null!;
+        private Dictionary<int, ArtifactManager> _artifacts = null!;
+        public void Start()
+        {
+            _artifacts = new Dictionary<int, ArtifactManager>();
+        }
+        public async void Spawn()
+        {
+            foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
+            {
+                var artifact = await SpawnArtifact(instance.artifactId);
+                artifact.transform.position = instance.position;
+                artifact.transform.rotation = Quaternion.Euler(instance.rotation * Mathf.Rad2Deg);
+            }
+        }
+        public async Task<GameObject> SpawnArtifact(int id)
+        {
+            GameObject artifact = await LoadArtifactModel(id);
+            var artifactManager = artifact.AddComponent<ArtifactManager>();
+            artifactManager.SetArtifact(await DataManager.GetInstance().GetArtifactAsync(id));
+            await artifactManager.InitLogic();
+            _artifacts.Add(id, artifactManager);
+            return artifact;
+        }
+        public async Task<GameObject> LoadArtifactModel(int id)
+        {
+            return await loaderSource.LoadGlb(API.API_URL + API.ROUTE.ARTIFACTS + id + "/model");
+        }
+
+        public void SetWorkplace(Models.Workplace workplace)
+        {
+            _workplace = workplace;
+        }
+        public Models.Workplace? GetWorkplace()
+        {
+            return _workplace;
+        }
+        public async Task<List<Models.Activity>> GetCompatibleActivitiesAsync()
+        {
+            return await DataManager.GetInstance().GetCompatibleActivitiesAsync(_workplace.GetId());
+        }
+        /// <summary>
+        /// Get instanciated artifacts in the workplace
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<int, ArtifactManager> GetArtifacts()
+        {
+            return _artifacts;
+        }
     }
 }

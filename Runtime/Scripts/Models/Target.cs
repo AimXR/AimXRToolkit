@@ -13,41 +13,44 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace AimXRToolkit.Models;
-public class Target
+namespace AimXRToolkit.Models
 {
-    private int id;
-    private string name;
-    private int artifact;
-    private List<int> components;
 
-    public Target(LitJson.JsonData data)
+    public class Target
     {
-        id = (int)data["id"];
-        name = (string)data["name"];
-        artifact = (int)data["artifact"];
-        components = new List<int>();
-        foreach (LitJson.JsonData component in data["components"])
+        private int id;
+        private string name;
+        private int artifact;
+        private List<int> components;
+
+        public Target(LitJson.JsonData data)
         {
-            components.Add((int)component);
+            id = (int)data["id"];
+            name = (string)data["name"];
+            artifact = (int)data["artifact"];
+            components = new List<int>();
+            foreach (LitJson.JsonData component in data["components"])
+            {
+                components.Add((int)component);
+            }
         }
-    }
 
-    public int GetId()
-    {
-        return id;
-    }
-    public string GetName()
-    {
-        return name;
-    }
-    public int GetArtifact()
-    {
-        return artifact;
-    }
-    public List<int> GetComponents()
-    {
-        return components;
-    }
+        public int GetId()
+        {
+            return id;
+        }
+        public string GetName()
+        {
+            return name;
+        }
+        public int GetArtifact()
+        {
+            return artifact;
+        }
+        public List<int> GetComponents()
+        {
+            return components;
+        }
 
+    }
 }

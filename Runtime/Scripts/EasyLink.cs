@@ -18,37 +18,38 @@ using UnityEngine;
 using Newtonsoft.Json;
 using SocketIOClient.Newtonsoft.Json;
 
-namespace AimXRToolkit;
-
-class EasyLink
+namespace AimXRToolkit
 {
-    private readonly SocketIO _socket;
-    private int _roomId;
-    public EasyLink()
+    class EasyLink
     {
-        _socket = new SocketIO(API.API_URL, new SocketIOOptions
+        private readonly SocketIO _socket;
+        private int _roomId;
+        public EasyLink()
         {
-            Auth = false,
-            Reconnection = true,
-            ReconnectionDelay = 3000,
-            ReconnectionDelayMax = 60 * 1000,
-            Path = "/ws/sockets",
-        });
-        _socket.JsonSerializer = new NewtonsoftJsonSerializer();
-        _socket.OnConnected += (sender, e) => Debug.Log("Connected");
-        _socket.OnReconnectAttempt += (sender, e) => Debug.Log("ReconnectAttempt");
+            _socket = new SocketIO(API.API_URL, new SocketIOOptions
+            {
+                Auth = false,
+                Reconnection = true,
+                ReconnectionDelay = 3000,
+                ReconnectionDelayMax = 60 * 1000,
+                Path = "/ws/sockets",
+            });
+            _socket.JsonSerializer = new NewtonsoftJsonSerializer();
+            _socket.OnConnected += (sender, e) => Debug.Log("Connected");
+            _socket.OnReconnectAttempt += (sender, e) => Debug.Log("ReconnectAttempt");
 
-        _socket.On("roomCreated", (data) =>
+            _socket.On("roomCreated", (data) =>
+            {
+                Debug.Log("roomCreated");
+                Debug.Log(data);
+            });
+
+        }
+        public async void Connect()
         {
-            Debug.Log("roomCreated");
-            Debug.Log(data);
-        });
+            await _socket.ConnectAsync();
+            await _socket.EmitAsync("createRoom", "test");
 
-    }
-    public async void Connect()
-    {
-        await _socket.ConnectAsync();
-        await _socket.EmitAsync("createRoom", "test");
-
+        }
     }
 }

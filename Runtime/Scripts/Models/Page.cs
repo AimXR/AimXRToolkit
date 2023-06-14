@@ -13,55 +13,57 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 using UnityEngine;
-namespace AimXRToolkit.Models;
-
-public class Page<T> where T : IPaginable
+namespace AimXRToolkit.Models
 {
-    private readonly List<T> _items;
-    private readonly int _total;
-    private readonly int _page;
-    private readonly int _size;
-    private readonly int _pages;
-
-    public Page(LitJson.JsonData data)
+    public class Page<T> where T : IPaginable
     {
-        _items = new List<T>();
-        foreach (LitJson.JsonData item in data["items"])
+        private readonly List<T> _items;
+        private readonly int _total;
+        private readonly int _page;
+        private readonly int _size;
+        private readonly int _pages;
+
+        public Page(LitJson.JsonData data)
         {
-            _items.Add((T)Activator.CreateInstance(typeof(T), item));
+            _items = new List<T>();
+            foreach (LitJson.JsonData item in data["items"])
+            {
+                _items.Add((T)Activator.CreateInstance(typeof(T), item));
+            }
+            _total = (int)data["total"];
+            _page = (int)data["page"];
+            _size = (int)data["size"];
+            _pages = (int)data["pages"];
         }
-        _total = (int)data["total"];
-        _page = (int)data["page"];
-        _size = (int)data["size"];
-        _pages = (int)data["pages"];
-    }
 
-    public bool HasNextPage()
-    {
-        return _page < _pages;
-    }
-    public bool HasPreviousPage()
-    {
-        return _page > 1;
-    }
-    public List<T> GetItems()
-    {
-        return _items;
-    }
-    public int GetTotal()
-    {
-        return _total;
-    }
-    public int GetPage()
-    {
-        return _page;
-    }
-    public int GetSize()
-    {
-        return _size;
-    }
-    public int GetPages()
-    {
-        return _pages;
+        public bool HasNextPage()
+        {
+            return _page < _pages;
+        }
+        public bool HasPreviousPage()
+        {
+            return _page > 1;
+        }
+        public List<T> GetItems()
+        {
+            return _items;
+        }
+        public int GetTotal()
+        {
+            return _total;
+        }
+        public int GetPage()
+        {
+            return _page;
+        }
+        public int GetSize()
+        {
+            return _size;
+        }
+        public int GetPages()
+        {
+            return _pages;
+        }
     }
 }
+

@@ -13,50 +13,54 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace AimXRToolkit.Models;
 using UnityEngine;
-public class WorkplacePagination
+
+namespace AimXRToolkit.Models
 {
-    private Page<WorkplaceShort>? _currentPage;
-    private int _size;
 
-    public WorkplacePagination(int size = 10)
+    public class WorkplacePagination
     {
-        _size = size;
-    }
+        private Page<WorkplaceShort>? _currentPage;
+        private int _size;
 
-    public async Task<bool> LoadNextPage()
-    {
-        if (_currentPage == null)
+        public WorkplacePagination(int size = 10)
         {
-            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(1, _size);
-            return true;
+            _size = size;
         }
-        bool res = _currentPage!.HasNextPage();
-        if (res)
-            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(_currentPage.GetPage() + 1, _size);
-        return res;
-    }
 
-    public async Task<bool> LoadPreviousPage()
-    {
-        if (_currentPage == null)
+        public async Task<bool> LoadNextPage()
         {
-            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(1, _size);
-            return true;
+            if (_currentPage == null)
+            {
+                _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(1, _size);
+                return true;
+            }
+            bool res = _currentPage!.HasNextPage();
+            if (res)
+                _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(_currentPage.GetPage() + 1, _size);
+            return res;
         }
-        bool res = _currentPage!.HasPreviousPage();
-        if (res)
-            _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(_currentPage.GetPage() - 1, _size);
-        return res;
-    }
 
-    public int GetTotal() => _currentPage?.GetTotal() ?? 0;
+        public async Task<bool> LoadPreviousPage()
+        {
+            if (_currentPage == null)
+            {
+                _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(1, _size);
+                return true;
+            }
+            bool res = _currentPage!.HasPreviousPage();
+            if (res)
+                _currentPage = await AimXRToolkit.Managers.DataManager.GetInstance().GetWorkplacesAsync(_currentPage.GetPage() - 1, _size);
+            return res;
+        }
 
-    public Page<WorkplaceShort>? GetCurrentPage() => _currentPage;
+        public int GetTotal() => _currentPage?.GetTotal() ?? 0;
 
-    public void SetSize(int size)
-    {
-        _size = size;
+        public Page<WorkplaceShort>? GetCurrentPage() => _currentPage;
+
+        public void SetSize(int size)
+        {
+            _size = size;
+        }
     }
 }

@@ -13,88 +13,89 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-
-
-namespace AimXRToolkit.Managers;
 using MoonSharp.Interpreter;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 
-public class AimXRManager : MonoBehaviour
+namespace AimXRToolkit.Managers
 {
-    private static AimXRManager? _Instance;
-    public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
-    private Models.User? _user;
-    private int _workplaceId;
-    private int _activityId;
-    private EasyLink _easyLink;
 
-    [SerializeField]
-    public string API_URL = "http://localhost:8000";
-    public UnityEngine.Audio.AudioMixerGroup audioMixerGroup;
-    public AudioClip testClip;
-    public LayerMask interactionsLayer;
-    private void Awake()
+    public class AimXRManager : MonoBehaviour
     {
-        // prevent creating multiple instances , delete the new one
-        if (_Instance != null)
+        private static AimXRManager? _Instance;
+        public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
+        private Models.User? _user;
+        private int _workplaceId;
+        private int _activityId;
+        private EasyLink _easyLink;
+
+        [SerializeField]
+        public string API_URL = "http://localhost:8000";
+        public UnityEngine.Audio.AudioMixerGroup audioMixerGroup;
+        public AudioClip testClip;
+        public LayerMask interactionsLayer;
+        private void Awake()
         {
-            Destroy(gameObject);
-            return;
+            // prevent creating multiple instances , delete the new one
+            if (_Instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+            _Instance = this;
+            Hardwire.Initialize();
+
+            API.API_URL = API_URL;
+
+            // TODO: init Moonsharp
+            // UserData.RegisterProxyType<>(p => new Proxy());
+            DontDestroyOnLoad(gameObject);
+            _easyLink = new EasyLink();
+            _easyLink.Connect();
         }
-        _Instance = this;
-        Hardwire.Initialize();
-
-        API.API_URL = API_URL;
-
-        // TODO: init Moonsharp
-        // UserData.RegisterProxyType<>(p => new Proxy());
-        DontDestroyOnLoad(gameObject);
-        _easyLink = new EasyLink();
-        _easyLink.Connect();
-    }
-    void OnEnable()
-    {
-        _Instance = this;
-    }
-    public void SetUser(Models.User? user)
-    {
-        _user = user;
-    }
-    public Models.User? GetUser()
-    {
-        return _user;
-    }
-    /// <summary>
-    /// ID of the workplace selected by the user or the headset
-    /// </summary>
-    /// <param name="id">id of the workplace</param>
-    public void SetWorkplaceId(int id)
-    {
-        _workplaceId = id;
-    }
-    /// <summary>
-    /// ID of the workplace selected by the user or the headset
-    /// </summary>
-    /// <returns>id of the workplace</returns>
-    public int GetWorkplaceId()
-    {
-        return _workplaceId;
-    }
-    /// <summary>
-    /// ID of the activity selected by the user or the headset
-    /// </summary>
-    /// <param name="id">id of the activity</param>
-    public void SetActivityId(int id)
-    {
-        _activityId = id;
-    }
-    /// <summary>
-    /// ID of the activity selected by the user or the headset
-    /// </summary>
-    /// <returns>id of the activity</returns>
-    public int GetActivityId()
-    {
-        return _activityId;
+        void OnEnable()
+        {
+            _Instance = this;
+        }
+        public void SetUser(Models.User? user)
+        {
+            _user = user;
+        }
+        public Models.User? GetUser()
+        {
+            return _user;
+        }
+        /// <summary>
+        /// ID of the workplace selected by the user or the headset
+        /// </summary>
+        /// <param name="id">id of the workplace</param>
+        public void SetWorkplaceId(int id)
+        {
+            _workplaceId = id;
+        }
+        /// <summary>
+        /// ID of the workplace selected by the user or the headset
+        /// </summary>
+        /// <returns>id of the workplace</returns>
+        public int GetWorkplaceId()
+        {
+            return _workplaceId;
+        }
+        /// <summary>
+        /// ID of the activity selected by the user or the headset
+        /// </summary>
+        /// <param name="id">id of the activity</param>
+        public void SetActivityId(int id)
+        {
+            _activityId = id;
+        }
+        /// <summary>
+        /// ID of the activity selected by the user or the headset
+        /// </summary>
+        /// <returns>id of the activity</returns>
+        public int GetActivityId()
+        {
+            return _activityId;
+        }
     }
 }

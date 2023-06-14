@@ -13,7 +13,9 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace AimXRToolkit.Models;
-public interface IPaginable
+namespace AimXRToolkit.Models
 {
+    public interface IPaginable
+    {
+    }
 }

@@ -13,27 +13,30 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace AimXRToolkit.Interactions;
 using MoonSharp.Interpreter;
 using UnityEngine;
-public abstract class Interactable : MonoBehaviour
+
+namespace AimXRToolkit.Interactions
 {
-    private ArtifactManager _artifactManager; // machine to which the interactable is attached
-    private string tag; // unique tag of the component
-    public void setArtifactManager(ArtifactManager artifactManager)
+    public abstract class Interactable : MonoBehaviour
     {
-        _artifactManager = artifactManager;
-    }
-    public ArtifactManager getArtifactManager()
-    {
-        return _artifactManager;
-    }
-    public void SetTag(string tag)
-    {
-        this.tag = tag;
-    }
-    public string GetTag()
-    {
-        return tag;
+        private ArtifactManager _artifactManager; // machine to which the interactable is attached
+        private string tag; // unique tag of the component
+        public void setArtifactManager(ArtifactManager artifactManager)
+        {
+            _artifactManager = artifactManager;
+        }
+        public ArtifactManager getArtifactManager()
+        {
+            return _artifactManager;
+        }
+        public void SetTag(string tag)
+        {
+            this.tag = tag;
+        }
+        public string GetTag()
+        {
+            return tag;
+        }
     }
 }

@@ -14,17 +14,19 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 using UnityEngine;
-namespace AimXRToolkit;
-public class Periodic : MonoBehaviour
+namespace AimXRToolkit
 {
+    public class Periodic : MonoBehaviour
+    {
 
-    private Renderer _renderer;
-    void Start()
-    {
-        _renderer = GetComponent<Renderer>();
-    }
-    void Update()
-    {
-        _renderer.material.color = Color.Lerp(Color.red, Color.blue, Mathf.PingPong(Time.time, 1));
+        private Renderer _renderer;
+        void Start()
+        {
+            _renderer = GetComponent<Renderer>();
+        }
+        void Update()
+        {
+            _renderer.material.color = Color.Lerp(Color.red, Color.blue, Mathf.PingPong(Time.time, 1));
+        }
     }
 }
