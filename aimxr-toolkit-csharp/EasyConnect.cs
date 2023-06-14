@@ -14,10 +14,14 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 using UnityEngine.Events;
+using UnityEngine;
 using LitJson;
 
 namespace AimXRToolkit;
 
+/// <summary>
+/// Class for handling the EasyConnect process
+/// </summary>
 public class EasyConnect
 {
     private readonly CancellationTokenSource _cts;
@@ -35,12 +39,19 @@ public class EasyConnect
     /// </summary>
     public UnityEvent<string> OnCodeChanged;
 
-    private string? _code;
-
+    /// <summary>
+    /// Initializes a new instance of the <see cref="EasyConnect"/> class.
+    /// </summary>
     public EasyConnect()
     {
         _cts = new CancellationTokenSource();
+        OnTokenReceived = new UnityEvent<string>();
+        OnError = new UnityEvent<string>();
+        OnCodeChanged = new UnityEvent<string>();
     }
+    /// <summary>
+    /// Finalizer for the EasyConnect class. Cancels the CancellationTokenSource.
+    /// </summary>
     ~EasyConnect()
     {
         _cts.Cancel();
@@ -48,25 +59,26 @@ public class EasyConnect
     /// <summary>
     /// Launch the EasyConnect process
     /// </summary>
-    public void Launch()
+    public async Task LaunchAsync()
     {
-        Task.Run(async () =>
-        {
-            string code = await AskForCode();
-            WaitForEasyResponse(code);
-        });
+
+        var res = await AskForCode();
+        WaitForEasyResponse(res.code, res.password);
     }
     /// <summary>
     /// Does an API request to get a EasyConnect code, displays it on screen using the TextMeshPro prefab, and launches the EasyConnect waiting loop
     /// </summary>
-    private async Task<string> AskForCode()
+    private async Task<EasyResponse> AskForCode()
     {
-        var res = await API.ExecuteAsync(API.ROUTE.EASY_GENERATE, API.Method.Get, API.Type.Json);
+        var res = await API.GetAsync(API.ROUTE.EASY_GENERATE);
         JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
         string code = (string)data["code"];
+        string password = (string)data["password"];
         OnCodeChanged.Invoke(code);
-        return code;
+        return new EasyResponse { code = code, password = password };
     }
+
+
     /// <summary>
     /// Stop the EasyConnect waiting loop
     /// </summary>
@@ -81,21 +93,29 @@ public class EasyConnect
     /// Does not continue waiting if [cancelEasyCode] is called
     /// </summary>
     /// <param name="code">EasyConnect code to wait for</param>
-    private async void WaitForEasyResponse(string code)
+    /// <param name="password"></param>
+    private async void WaitForEasyResponse(string code, string password)
     {
 
         for (; ; ) // infinite loop
         {
             // API request to get the easy connect code
-            var res = await API.ExecuteAsync(API.ROUTE.EASY_CODE + code, API.Method.Get, API.Type.Json);
+            var res = await API.ExecuteAsync(API.ROUTE.EASY_CODE + code + "?password=" + password, API.Method.Get, API.Type.Json);
             if (res.responseCode == 200)
             {
                 // Parse token and log in with this token
                 JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
                 string token = (string)data["token"];
                 OnTokenReceived.Invoke(token);
+                return;
             }
             await Task.Delay(100, _cts.Token);
         }
+    }
+
+    struct EasyResponse
+    {
+        public string code;
+        public string password;
     }
 }
