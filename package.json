@@ -1,5 +1,5 @@
 {
-  "name": "com.aimxr.aimxrtoolkitunity",
+  "name": "com.aimxr.toolkit",
   "version": "0.1.0",
   "displayName": "AIMXR Toolkit Unity",
   "description": "A Unity package for the AIMXR Toolkit to provide a set of tools for building AR and VR experiences.",
