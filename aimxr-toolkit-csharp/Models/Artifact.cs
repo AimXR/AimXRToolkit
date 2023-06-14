@@ -4,14 +4,6 @@ using UnityEngine;
 
 namespace AimXRToolkit.Models
 {
-    public struct Anchor
-    {
-        public Vector3 position;
-        public Vector3 rotation;
-
-        public Vector3 GetPosition() { return position; }
-        public Vector3 GetRotation() { return rotation; }
-    }
     public class Artifact : IPaginable
     {
         private readonly int _id;

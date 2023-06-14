@@ -162,6 +162,11 @@ namespace AimXRToolkit
                     return null;
             }
         }
+
+        public Models.Artifact GetArtifact()
+        {
+            return this._artifact;
+        }
     }
 
 }
