@@ -1,3 +1,20 @@
 {
-	"name": "AimXRToolkit"
+    "name": "AimXRToolkit",
+    "rootNamespace": "AimXRToolkit",
+    "references": [
+        "LitJSON",
+        "glTFast",
+        "Unity.InputSystem",
+        "MoonSharp",
+        "SocketIOUnityAssembly"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

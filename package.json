@@ -9,7 +9,8 @@
     "com.unity.nuget.newtonsoft-json" : "3.0.2",
     "com.unity.inputsystem": "1.6.1",
     "com.omnilatent.litjson":"1.0.1",
-    "com.atteneder.gltfast":"5.0.4"
+    "com.atteneder.gltfast":"5.0.4",
+    "com.itisnajim.socketiounity":"1.1.4"
   },
  "keywords": [
     "AR",
