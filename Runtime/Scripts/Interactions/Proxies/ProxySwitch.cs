@@ -30,15 +30,16 @@
 
 using MoonSharp.Interpreter;
 using UnityEngine;
-using MoonSharp.Interpreter;
 
-namespace AimXRToolkit.Interactions.Proxies;
-[MoonSharp.Interpreter.MoonSharpUserData]
-public class ProxySwitch
+namespace AimXRToolkit.Interactions.Proxies
 {
-    private Switch _switch;
-    public ProxySwitch(Switch s)
+    [MoonSharp.Interpreter.MoonSharpUserData]
+    public class ProxySwitch
     {
-        _switch = s;
+        private Switch _switch;
+        public ProxySwitch(Switch s)
+        {
+            _switch = s;
+        }
     }
 }

@@ -13,18 +13,22 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
-namespace AimXRToolkit.Interactions.Proxies;
-[MoonSharp.Interpreter.MoonSharpUserData]
-public class ProxyColor
-{
-    private readonly Interactions.Color _color;
-    public ProxyColor(Interactions.Color color)
-    {
-        _color = color;
-    }
+using MoonSharp.Interpreter;
 
-    public void SetColor(string hexa)
+namespace AimXRToolkit.Interactions.Proxies
+{
+    [MoonSharp.Interpreter.MoonSharpUserData]
+    public class ProxyColor
     {
-        _color.SetColor(hexa);
+        private readonly Interactions.Color _color;
+        public ProxyColor(Interactions.Color color)
+        {
+            _color = color;
+        }
+
+        public void SetColor(string hexa)
+        {
+            _color.SetColor(hexa);
+        }
     }
 }

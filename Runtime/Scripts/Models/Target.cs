@@ -13,6 +13,8 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
+using System.Collections.Generic;
+
 namespace AimXRToolkit.Models
 {
 

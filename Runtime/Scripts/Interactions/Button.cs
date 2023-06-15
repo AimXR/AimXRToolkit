@@ -24,7 +24,7 @@ namespace AimXRToolkit.Interactions
         private AudioClip _sound; // sound to play when the button is pressed
 
 
-        public static new Interactable Parse(Models.Component component, GameObject gameObject)
+        public static Interactable Parse(Models.Component component, GameObject gameObject)
         {
             var interactable = gameObject.AddComponent<Interactions.Button>();
             interactable.SetTag(component.GetTag());

@@ -15,6 +15,7 @@
 
 using MoonSharp.Interpreter;
 using UnityEngine;
+using AimXRToolkit.Managers;
 
 namespace AimXRToolkit.Interactions
 {
@@ -38,5 +39,6 @@ namespace AimXRToolkit.Interactions
         {
             return tag;
         }
+
     }
 }

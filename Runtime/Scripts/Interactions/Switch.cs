@@ -30,7 +30,7 @@ namespace AimXRToolkit.Interactions
         /// The angle of the switch.
         /// </summary>
         private float _angle;
-        public static new Interactable Parse(Models.Component component, GameObject gameObject)
+        public static Interactable Parse(Models.Component component, GameObject gameObject)
         {
             // var interactable = new GameObject().AddComponent<Color>();
             Interactions.Switch c = gameObject.AddComponent<Interactions.Switch>();

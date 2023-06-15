@@ -16,6 +16,7 @@
 using MoonSharp.Interpreter;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using System.Threading.Tasks;
 
 namespace AimXRToolkit.Managers
 {

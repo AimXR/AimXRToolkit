@@ -12,6 +12,9 @@
 // 
 // You should have received a copy of the GNU Lesser General Public License
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
+
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
@@ -80,6 +83,11 @@ namespace AimXRToolkit
                 if (obj == null || GetType() != obj.GetType())
                     return false;
                 return Value == ((Method)obj).Value;
+            }
+
+            public override int GetHashCode()
+            {
+                return Value.GetHashCode();
             }
         }
 

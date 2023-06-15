@@ -21,7 +21,7 @@ namespace AimXRToolkit.Interactions
 
     public class Color : Interactable
     {
-        public static new Interactable Parse(Models.Component component, GameObject gameObject)
+        public static Interactable Parse(Models.Component component, GameObject gameObject)
         {
             // var interactable = new GameObject().AddComponent<Color>();
             Interactions.Color c = gameObject.AddComponent<Interactions.Color>();

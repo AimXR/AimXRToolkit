@@ -127,10 +127,5 @@ namespace AimXRToolkit.Models
         {
             return _position;
         }
-
-        public static implicit operator System.Action(Action v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
+
+using System.IO;
 using MoonSharp.Interpreter;
 using MoonSharp.Interpreter.Serialization;
 using AimXRToolkit.Interactions;

@@ -29,9 +29,9 @@ namespace AimXRToolkit.Managers
             ActivityCache = new Dictionary<int, CacheItem<Activity>>();
             WorkplaceCache = new Dictionary<int, CacheItem<Workplace>>();
             ActionCache = new Dictionary<int, CacheItem<Models.Action>>();
-            TargetComponentsCache = new();
-            TargetCache = new();
-            ComponentCache = new();
+            TargetComponentsCache = new Dictionary<int, CacheItem<List<Models.Component>>>();
+            TargetCache = new Dictionary<int, CacheItem<Models.Target>>();
+            ComponentCache = new Dictionary<int, CacheItem<Models.Component>>();
         }
 
         public static DataManager GetInstance()
@@ -82,7 +82,8 @@ namespace AimXRToolkit.Managers
                 return new Models.Component(data);
             }
 
-            switch (res.responseCode) {
+            switch (res.responseCode)
+            {
                 case 404: throw new ComponentNotFoundException(id);
                 case 0: throw new TimeoutException();
                 default: throw new Exception();
@@ -99,7 +100,8 @@ namespace AimXRToolkit.Managers
                 return new Target(data);
             }
 
-            switch (res.responseCode) {
+            switch (res.responseCode)
+            {
                 case 404: throw new TargetNotFoundException(id);
                 case 0: throw new TimeoutException();
                 default: throw new Exception();
@@ -152,7 +154,8 @@ namespace AimXRToolkit.Managers
                 return new Workplace(data);
             }
 
-            switch (res.responseCode) {
+            switch (res.responseCode)
+            {
                 case 404: throw new WorkplaceNotFoundException(id);
                 case 0: throw new TimeoutException();
                 default: throw new Exception();
@@ -169,7 +172,8 @@ namespace AimXRToolkit.Managers
                 return new Artifact(data);
             }
 
-            switch (res.responseCode) {
+            switch (res.responseCode)
+            {
                 case 404: throw new ArtifactNotFoundException(id);
                 case 0: throw new TimeoutException();
                 default: throw new Exception();
@@ -186,7 +190,8 @@ namespace AimXRToolkit.Managers
                 return new Models.Action(data);
             }
 
-            switch (res.responseCode) {
+            switch (res.responseCode)
+            {
                 case 404: throw new ActionNotFoundException(id);
                 case 0: throw new TimeoutException();
                 default: throw new Exception();
@@ -250,7 +255,7 @@ namespace AimXRToolkit.Managers
         {
             var res = await API.GetAsync(API.ROUTE.ACTIVITIES + "?workplace=" + workplaceId);
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            List<Activity> activities = new();
+            List<Activity> activities = new List<Activity>();
             foreach (JsonData item in data["items"])
             {
                 activities.Add(new Activity(item));

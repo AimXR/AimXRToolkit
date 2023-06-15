@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MoonSharp.Interpreter;
@@ -6,6 +7,7 @@ using AimXRToolkit.Interactions;
 using AimXRToolkit.Interactions.Proxies;
 using AimXRToolkit.Managers;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace AimXRToolkit.Managers
 {
@@ -102,7 +104,7 @@ namespace AimXRToolkit.Managers
 
         private Dictionary<string, GameObject> Flatten(GameObject obj)
         {
-            Dictionary<string, GameObject> res = new();
+            Dictionary<string, GameObject> res = new Dictionary<string, GameObject>();
             FlattenRecursive(obj.transform, res);
             return res;
         }

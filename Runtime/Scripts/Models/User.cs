@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -107,7 +108,7 @@ namespace AimXRToolkit.Models
             Debug.Log(res.downloadHandler.text);
             if (res.responseCode != 200) return null;
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
-            return new()
+            return new User
             {
                 id = (int)data["id"],
                 token = token,

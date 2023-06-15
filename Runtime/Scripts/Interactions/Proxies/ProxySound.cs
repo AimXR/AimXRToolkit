@@ -15,20 +15,21 @@
 
 using MoonSharp.Interpreter;
 using UnityEngine;
-using MoonSharp.Interpreter;
 
-namespace AimXRToolkit.Interactions.Proxies;
-[MoonSharp.Interpreter.MoonSharpUserData]
-public class ProxySound
+namespace AimXRToolkit.Interactions.Proxies
 {
-    private Sound _sound;
-    public ProxySound(Sound sound)
+    [MoonSharp.Interpreter.MoonSharpUserData]
+    public class ProxySound
     {
-        _sound = sound;
-    }
+        private Sound _sound;
+        public ProxySound(Sound sound)
+        {
+            _sound = sound;
+        }
 
-    public void Play()
-    {
-        _sound.Play();
+        public void Play()
+        {
+            _sound.Play();
+        }
     }
 }
