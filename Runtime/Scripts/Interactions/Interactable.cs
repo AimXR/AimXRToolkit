@@ -22,7 +22,7 @@ namespace AimXRToolkit.Interactions
     public abstract class Interactable : MonoBehaviour
     {
         private ArtifactManager _artifactManager; // machine to which the interactable is attached
-        private string tag; // unique tag of the component
+        private string _tag; // unique tag of the component
         public void setArtifactManager(ArtifactManager artifactManager)
         {
             _artifactManager = artifactManager;
@@ -33,7 +33,7 @@ namespace AimXRToolkit.Interactions
         }
         public void SetTag(string tag)
         {
-            this.tag = tag;
+            this._tag = tag;
         }
         public string GetTag()
         {

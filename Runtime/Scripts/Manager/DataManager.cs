@@ -10,7 +10,7 @@ namespace AimXRToolkit.Managers
 {
     public sealed class DataManager
     {
-        private static DataManager? Instance;
+        private static DataManager Instance;
         // api url
         [SerializeField]
         [Tooltip("The url of the api")]

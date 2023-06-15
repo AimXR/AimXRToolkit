@@ -18,7 +18,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using System.Threading.Tasks;
-
 namespace AimXRToolkit
 {
     public class API
@@ -78,7 +77,7 @@ namespace AimXRToolkit
             public static bool operator ==(Method a, Method b) => a.Value == b.Value;
             public static bool operator !=(Method a, Method b) => a.Value != b.Value;
 
-            public override bool Equals(object? obj)
+            public override bool Equals(object obj)
             {
                 if (obj == null || GetType() != obj.GetType())
                     return false;

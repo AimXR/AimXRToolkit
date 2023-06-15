@@ -24,19 +24,19 @@ namespace AimXRToolkit.Models
         /// <summary>
         /// Username of the app's user
         /// </summary>
-        public string? username;
+        public string username;
         /// <summary>
         /// Password of the app's user
         /// </summary>
-        public string? password;
+        public string password;
         /// <summary>
         /// Token of the app's user
         /// </summary>
-        public string? token;
+        public string token;
         /// <summary>
         /// Token type of the app's user
         /// </summary>
-        public string? tokenType;
+        public string tokenType;
         /// <summary>
         /// First name of the app's user
         /// </summary>
@@ -87,9 +87,6 @@ namespace AimXRToolkit.Models
             this.firstname = (string)data["firstname"];
             this.lastname = (string)data["lastname"];
             this.email = (string)data["email"];
-            Debug.Log(data["language_code"]);
-            Debug.Log(data["language_code"].GetType());
-            Debug.Log((string)data["language_code"]);
             this.language = data["language_code"] == null ? "" : (string)data["language_code"];
             this.permissions = (PERMISSIONS)System.Enum.Parse(typeof(PERMISSIONS), (string)data["adminLevel"]);
             return data;

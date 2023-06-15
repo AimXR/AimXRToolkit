@@ -58,7 +58,7 @@ namespace AimXRToolkit.Managers
         {
             _workplace = workplace;
         }
-        public Models.Workplace? GetWorkplace()
+        public Models.Workplace GetWorkplace()
         {
             return _workplace;
         }

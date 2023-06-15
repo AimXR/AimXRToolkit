@@ -23,9 +23,9 @@ namespace AimXRToolkit.Managers
 
     public class AimXRManager : MonoBehaviour
     {
-        private static AimXRManager? _Instance;
+        private static AimXRManager _Instance;
         public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
-        private Models.User? _user;
+        private Models.User _user;
         private int _workplaceId;
         private int _activityId;
         private EasyLink _easyLink;
@@ -58,11 +58,11 @@ namespace AimXRToolkit.Managers
         {
             _Instance = this;
         }
-        public void SetUser(Models.User? user)
+        public void SetUser(Models.User user)
         {
             _user = user;
         }
-        public Models.User? GetUser()
+        public Models.User GetUser()
         {
             return _user;
         }

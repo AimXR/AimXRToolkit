@@ -19,7 +19,7 @@ namespace AimXRToolkit.Models
     using UnityEngine;
     public class ActivityPagination
     {
-        private Page<ActivityShort>? _currentPage;
+        private Page<ActivityShort> _currentPage;
         private int _size;
         private int _workplaceId;
 
@@ -57,7 +57,7 @@ namespace AimXRToolkit.Models
 
         public int GetTotal() => _currentPage?.GetTotal() ?? 0;
 
-        public Page<ActivityShort>? GetCurrentPage() => _currentPage;
+        public Page<ActivityShort> GetCurrentPage() => _currentPage;
 
         public void SetSize(int size)
         {

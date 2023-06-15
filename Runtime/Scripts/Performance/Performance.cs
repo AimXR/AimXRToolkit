@@ -21,7 +21,7 @@ namespace AimXRToolkit.Performance
 
         [SerializeField]
         [Tooltip("The activity manager of the scene")]
-        public ActivityManager? activityManager;
+        public ActivityManager activityManager;
         void Start()
         {
             _platform = Application.identifier + "/" + Application.version + " " + Application.productName;
@@ -39,7 +39,7 @@ namespace AimXRToolkit.Performance
 
         }
         // action<Verb template> method
-        private async Task<JsonData?> SendActionStatement(Verb verb, Models.Action action)
+        private async Task<JsonData> SendActionStatement(Verb verb, Models.Action action)
         {
             if (action == null)
             {
@@ -88,7 +88,7 @@ namespace AimXRToolkit.Performance
             _ = await SendActionStatement(Verb.Help, action);
         }
 
-        public async Task<JsonData?> SendPerformanceStatementAsync(Verb verb, PerformanceObject performanceObject, PerformanceContext context)
+        public async Task<JsonData> SendPerformanceStatementAsync(Verb verb, PerformanceObject performanceObject, PerformanceContext context)
         {
             JsonData jsonBody = new JsonData();
             jsonBody["actor"] = 1;
@@ -133,7 +133,7 @@ namespace AimXRToolkit.Performance
     public class PerformanceContext
     {
         private readonly string _platform;
-        private readonly string? _language;
+        private readonly string _language;
         private readonly int _activity;
         private readonly int _action;
         private readonly int _session;

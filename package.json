@@ -7,7 +7,9 @@
   "dependencies": {
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.nuget.newtonsoft-json" : "3.0.2",
-    "com.unity.inputsystem": "1.3.0"
+    "com.unity.inputsystem": "1.6.1",
+    "com.omnilatent.litjson":"1.0.1",
+    "com.atteneder.gltfast":"5.0.4"
   },
  "keywords": [
     "AR",
@@ -23,7 +25,14 @@
         "org.nuget"
       ]
     },{
-      
+     "name": "OpenUPM",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.atteneder.gltfast",
+        "com.unity.nuget.newtonsoft-json",
+        "com.itisnajim.socketiounity",
+        "com.omnilatent.litjson"
+      ]
     }
   ],
   "author": {

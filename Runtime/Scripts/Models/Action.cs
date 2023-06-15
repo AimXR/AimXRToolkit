@@ -109,7 +109,7 @@ namespace AimXRToolkit.Models
         /// getter for type
         /// </summary>
         /// <returns> type of the action </returns>
-        public string GetType()
+        public string GetActionType()
         {
             return _type;
         }

@@ -21,7 +21,7 @@ namespace AimXRToolkit.Models
 
     public class WorkplacePagination
     {
-        private Page<WorkplaceShort>? _currentPage;
+        private Page<WorkplaceShort> _currentPage;
         private int _size;
 
         public WorkplacePagination(int size = 10)
@@ -57,7 +57,7 @@ namespace AimXRToolkit.Models
 
         public int GetTotal() => _currentPage?.GetTotal() ?? 0;
 
-        public Page<WorkplaceShort>? GetCurrentPage() => _currentPage;
+        public Page<WorkplaceShort> GetCurrentPage() => _currentPage;
 
         public void SetSize(int size)
         {

@@ -144,9 +144,9 @@ namespace AimXRToolkit.Managers
             Debug.Log("elapsedMs " + elapsedMs);
         }
 
-        private Interactable? ParseComponent(Models.Component component, GameObject obj)
+        private Interactable ParseComponent(Models.Component component, GameObject obj)
         {
-            switch (component.GetType())
+            switch (component.GetComponentType())
             {
                 case "Button":
                     return Button.Parse(component, obj);

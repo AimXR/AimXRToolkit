@@ -59,7 +59,7 @@ namespace AimXRToolkit.Models
         {
             return _tag;
         }
-        public string GetType()
+        public string GetComponentType()
         {
             return _type;
         }
