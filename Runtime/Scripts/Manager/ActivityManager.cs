@@ -35,6 +35,8 @@ namespace AimXRToolkit.Managers
         [SerializeField]
         public UnityEngine.Events.UnityEvent<Models.Activity> onActivityEnd;
 
+        private bool _started;
+
         void Start()
         {
         }
@@ -69,9 +71,14 @@ namespace AimXRToolkit.Managers
             // if current action is null, the we are at the beginning of the activity and the first action is contain in the activity object
             if (_currentAction == null)
             {
+                if (!_started)
+                {
+                    onActivityStart.Invoke(_activity);
+                    _started = true;
+                }
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_activity.GetStart());
-                onActivityStart.Invoke(_activity);
                 onActionChange.Invoke(_currentAction);
+                onActionStart.Invoke(_currentAction);
             }
             else
             {
