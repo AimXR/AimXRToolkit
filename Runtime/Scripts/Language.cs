@@ -32,8 +32,8 @@ namespace AimXRToolkit {
         /// summary
         /// Returns the code of the language
         /// summary
-        public string toString() {
-            return this.code;
+        override public string ToString() {
+            return code;
         }
 
         /// summary

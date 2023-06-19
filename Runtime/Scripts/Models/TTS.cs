@@ -11,8 +11,8 @@ namespace AimXRToolkit.Models
         public async void speak(string text, Language language, AudioSource audioSource)
         {
             UnityWebRequest request = new UnityWebRequest();
-            string body = "{\"language\":\"" + language.ToString().ToUpper() + "\", \"text\":\"" + text + "\"\n}";
-            string url = API.API_URL + API.ROUTE.LANGUAGES + "tts";
+            string body = "{\"language\":\"" + language.ToString().ToLower() + "\", \"text\":\"" + text + "\"\n}";
+            string url = API.API_URL + API.ROUTE.TTS;
 
             request.url = url;
             request.downloadHandler = new DownloadHandlerAudioClip(url, AudioType.MPEG);
@@ -31,13 +31,15 @@ namespace AimXRToolkit.Models
                 tcs.SetResult(request);
             };
             await tcs.Task;
-            if (request.responseCode == 200)
+            if (request.responseCode != 0 && request.responseCode < 300)
             {
                 audioSource.clip = DownloadHandlerAudioClip.GetContent(request);
+                audioSource.time = 0f;
                 audioSource.Play();
+            } else
+            {
+                Debug.LogError("TTS request error : " + request.error + "\nURL=" + url + "\nBody=" + body);
             }
-
         }
     }
-
 }
