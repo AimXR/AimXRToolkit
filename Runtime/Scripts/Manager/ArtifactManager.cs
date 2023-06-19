@@ -18,6 +18,7 @@ namespace AimXRToolkit.Managers
         [SerializeField]
         private List<Interactable> _interactables;
         private Script _script;
+        private Dictionary<string, GameObject> flatedArtifact;
         void Start()
         {
             _interactables = new List<Interactable>();
@@ -30,6 +31,7 @@ namespace AimXRToolkit.Managers
             UserData.RegisterProxyType<ProxyColor, Interactions.Color>(r => new ProxyColor(r));
             UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
             UserData.RegisterProxyType<ProxySwitch, Switch>(r => new ProxySwitch(r));
+            flatedArtifact = Flatten(this.gameObject);
         }
 
         void Update()
@@ -38,7 +40,6 @@ namespace AimXRToolkit.Managers
         }
         public async Task InitLogic()
         {
-            Dictionary<string, GameObject> flatedArtifact = Flatten(this.gameObject);
             DataManager dm = DataManager.GetInstance();
             foreach (var target in _artifact.GetTargets())
             {
@@ -49,7 +50,6 @@ namespace AimXRToolkit.Managers
                 {
                     var componentObj = await dm.GetComponentAsync(component);
                     var interactable = ParseComponent(componentObj, obj);
-                    Debug.Log(interactable);
 
                     if (interactable != null)
                     {
@@ -85,19 +85,23 @@ namespace AimXRToolkit.Managers
                             end
                             ";
                             string formatted = string.Format(code, componentObj.GetTag(), name, body);
-                            Debug.Log(formatted);
                             this._script.DoString(formatted);
                         }
                     }
                 }
             }
-            foreach (var item in flatedArtifact.Values)
+
+            foreach (var key in flatedArtifact.Keys)
             {
-                // test if it has a collider
-                Debug.Log(item.name);
-                if (item.GetComponent<Collider>() == null)
+                if (flatedArtifact[key] == null)
                 {
-                    item.AddComponent<MeshCollider>();
+                    Debug.Log("Key: " + key + " is null");
+                    continue;
+                }
+                var obj = flatedArtifact[key];
+                if (obj.GetComponent<Collider>() == null)
+                {
+                    obj.AddComponent<MeshCollider>();
                 }
             }
         }
@@ -122,7 +126,7 @@ namespace AimXRToolkit.Managers
         {
             this._artifact = artifact;
         }
-        public void CallFunction(string tag, string function)
+        public void CallFunction(string componentTag, string function)
         {
             var watch = System.Diagnostics.Stopwatch.StartNew();
             /**
@@ -133,7 +137,7 @@ namespace AimXRToolkit.Managers
             **/
             try
             {
-                this._script.DoString("_G['" + tag + "'].events." + function + "()");
+                this._script.DoString("_G['" + componentTag + "'].events." + function + "()");
             }
             catch (Exception e)
             {
@@ -168,6 +172,10 @@ namespace AimXRToolkit.Managers
         public Models.Artifact GetArtifact()
         {
             return this._artifact;
+        }
+        public GameObject GetArtifactPart(string name)
+        {
+            return flatedArtifact[name];
         }
     }
 

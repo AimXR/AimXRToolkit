@@ -50,7 +50,6 @@ namespace AimXRToolkit.Interactions
             {
                 base.getArtifactManager().CallFunction(base.GetTag(), "OnPressed");
             }
-            Debug.Log("Enter button " + collision.gameObject.name);
         }
 
         void OnTriggerExit(Collider collision)
@@ -59,7 +58,6 @@ namespace AimXRToolkit.Interactions
             {
                 base.getArtifactManager().CallFunction(base.GetTag(), "OnReleased");
             }
-            Debug.Log("Exit button " + collision.gameObject.name);
         }
     }
 }

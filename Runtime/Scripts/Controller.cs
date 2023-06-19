@@ -14,15 +14,21 @@
 // along with aimxr-toolkit-csharp. If not, see <http://www.gnu.org/licenses/>.
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace AimXRToolkit
 {
     public class Controller : MonoBehaviour
     {
+        public InputActionReference grabAction;
+        public InputActionReference triggerAction;
+        public InputActionProperty grabActionProperty;
 
+        public ControllerDebug controllerDebug;
         void Start()
         {
-
+            if (grabAction != null)
+                grabAction.ToInputAction().performed += (ctx) => Debug.Log("Grab");
         }
         void Update()
         {

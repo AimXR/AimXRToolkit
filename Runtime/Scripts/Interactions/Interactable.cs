@@ -31,13 +31,13 @@ namespace AimXRToolkit.Interactions
         {
             return _artifactManager;
         }
-        public void SetTag(string tag)
+        public void SetTag(string componentTag)
         {
-            this._tag = tag;
+            this._tag = componentTag;
         }
         public string GetTag()
         {
-            return tag;
+            return _tag;
         }
 
     }
