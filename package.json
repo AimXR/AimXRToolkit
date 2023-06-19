@@ -10,7 +10,8 @@
     "com.unity.inputsystem": "1.6.1",
     "com.omnilatent.litjson":"1.0.1",
     "com.atteneder.gltfast":"5.0.4",
-    "com.itisnajim.socketiounity":"1.1.4"
+    "com.itisnajim.socketiounity":"1.1.4",
+    "com.unity.xr.interaction.toolkit":"2.3.2"
   },
  "keywords": [
     "AR",

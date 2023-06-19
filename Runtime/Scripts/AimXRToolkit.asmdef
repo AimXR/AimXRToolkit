@@ -6,7 +6,8 @@
         "glTFast",
         "Unity.InputSystem",
         "MoonSharp",
-        "SocketIOUnityAssembly"
+        "SocketIOUnityAssembly",
+        "Unity.XR.Interaction.Toolkit"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
