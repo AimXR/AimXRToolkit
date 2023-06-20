@@ -60,6 +60,7 @@ namespace AimXRToolkit
                 public static string __PLAYED_STEPS = "/playedSteps/";
                 public static string PLAYED_STEPS = "/stats/sessions/playedSteps/";
             }
+            public static string ACTIONS_DATA = "/data/actions/";
             public static string ACTIVITIES_SEARCH = "/activities/search";
         }
 
