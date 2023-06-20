@@ -35,18 +35,22 @@ namespace AimXRToolkit.Managers
         {
             foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
             {
-                var artifact = await SpawnArtifact(instance);
+                var artifact = await SpawnArtifact(instance,
+                    AimXRManager.Instance.mode == AimXRManager.MODE.VIRTUAL_REALITY);
                 artifact.transform.position = instance.position;
                 artifact.transform.rotation = Quaternion.Euler(instance.rotation * Mathf.Rad2Deg);
             }
         }
 
-        public async Task<GameObject> SpawnArtifact(Models.ArtifactInstance instance)
+        public async Task<GameObject> SpawnArtifact(Models.ArtifactInstance instance, bool initLogic = false)
         {
             GameObject artifact = await LoadArtifactModel(instance.artifactId);
             var artifactManager = artifact.AddComponent<ArtifactManager>();
             artifactManager.SetArtifact(await DataManager.GetInstance().GetArtifactAsync(instance.artifactId));
-            await artifactManager.InitLogic();
+            if (initLogic)
+            {
+                await artifactManager.InitLogic();
+            }
             _artifacts.Add(instance.id, artifactManager);
             return artifact;
         }

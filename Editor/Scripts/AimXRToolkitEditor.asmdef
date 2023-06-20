@@ -1,0 +1,19 @@
+{
+    "name": "AimXRToolkitEditor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:e17083245d06e0d41bdb328cfe022b30",
+        "GUID:e87d7ef3aacba3948a5852d0e70652d8"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

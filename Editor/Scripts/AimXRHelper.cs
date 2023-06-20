@@ -70,7 +70,7 @@ namespace AimXRToolkit.Helpers
             // same with password
             GUILayout.BeginHorizontal();
             GUILayout.Label("Password : ");
-            _password = GUILayout.PasswordField(_password, '*', 25, GUILayout.Width(100));
+            _password = GUILayout.PasswordField(_password, '*', 100, GUILayout.Width(100));
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             // button to login
@@ -250,6 +250,7 @@ namespace AimXRToolkit.Helpers
             if (res.responseCode != 200)
             {
                 Debug.Log(res.downloadHandler.text);
+                Debug.Log("username " + _username + " password " + _password);
                 return false;
             }
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);

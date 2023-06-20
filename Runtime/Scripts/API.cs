@@ -205,4 +205,14 @@ namespace AimXRToolkit
     {
         public ActionNotFoundException(int id) : base("Action", id) { }
     }
+
+    public class RessourceNotFoundException : Exception
+    {
+        public RessourceNotFoundException(int id, string ressourceName) : base("Ressource of action " + id + " with name " + ressourceName + " not found") { }
+    }
+
+    public class NoRessourceException : Exception
+    {
+        public NoRessourceException(int id) : base("No ressource found for action " + id) { }
+    }
 }

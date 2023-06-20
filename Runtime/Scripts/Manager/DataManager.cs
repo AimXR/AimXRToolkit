@@ -1,10 +1,14 @@
 using LitJson;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
 using AimXRToolkit.Models;
+using UnityEngine.Networking;
+using System.Text.RegularExpressions;
+using UnityEngine.Video;
 
 namespace AimXRToolkit.Managers
 {
@@ -23,6 +27,7 @@ namespace AimXRToolkit.Managers
         private readonly Dictionary<int, CacheItem<List<Models.Component>>> TargetComponentsCache;
         private readonly Dictionary<int, CacheItem<Models.Target>> TargetCache;
         private readonly Dictionary<int, CacheItem<Models.Component>> ComponentCache;
+        private readonly Dictionary<int, CacheItem<byte[]>> ResourceCache;
         private DataManager()
         {
             ArtifactCache = new Dictionary<int, CacheItem<Artifact>>();
@@ -32,6 +37,7 @@ namespace AimXRToolkit.Managers
             TargetComponentsCache = new Dictionary<int, CacheItem<List<Models.Component>>>();
             TargetCache = new Dictionary<int, CacheItem<Models.Target>>();
             ComponentCache = new Dictionary<int, CacheItem<Models.Component>>();
+            ResourceCache = new Dictionary<int, CacheItem<byte[]>>();
         }
 
         public static DataManager GetInstance()
@@ -236,10 +242,130 @@ namespace AimXRToolkit.Managers
             return new Page<WorkplaceShort>(data);
         }
 
+        /// <summary>
+        /// Get ressource of an action
+        /// </summary>
+        /// <param name="id">id of an action</param>
+        /// <returns></returns>
+        /// <exception cref="RessourceNotFoundException"></exception>
+        /// <exception cref="Exception"></exception>
+        public async Task<Ressource> GetActionRessourceAsync(int id)
+        {
+
+            var action = await GetActionAsync(id);
+            string ressourceName = action.GetRessourceName();
+            Debug.Log("Ressource name : " + ressourceName);
+            if (string.IsNullOrEmpty(ressourceName))
+                throw new NoRessourceException(id);
+            string fileExtension = GetFileExtension(ressourceName);
+            string[] images = { "png", "jpg", "jpeg" };
+            string[] videos = { "mp4", "webm" };
+            string[] audios = { "mp3", "wav", "ogg" };
+            if (fileExtension == null)
+            {
+                throw new RessourceNotFoundException(id, ressourceName);
+            }
+            if (images.Contains(fileExtension.ToLower()))
+            {
+                return await GetImageRessourceAsync(action.GetId(), action.GetRessourceName());
+            }
+
+            if (videos.Contains(fileExtension.ToLower()))
+            {
+                return await GetVideoRessourceAsync(action.GetId(), action.GetRessourceName());
+            }
+
+            if (audios.Contains(fileExtension.ToLower()))
+            {
+                return await GetAudioRessourceAsync(action.GetId(), action.GetRessourceName());
+            }
+            throw new Exception("Resource type not supported");
+        }
+
+        private async Task<AudioRessource> GetAudioRessourceAsync(int getId, string getRessourceName)
+        {
+            UnityWebRequest req = UnityWebRequestMultimedia.GetAudioClip(API.API_URL + API.ROUTE.ACTIONS_DATA + getId + "/ressources/" + getRessourceName, GetAudioType(GetFileExtension(getRessourceName)));
+            req.SetRequestHeader("Authorization", "Bearer " + AimXRManager.Instance.GetUser().token);
+            TaskCompletionSource<AudioRessource> tcs = new TaskCompletionSource<AudioRessource>();
+            req.SendWebRequest().completed += (asyncOperation) =>
+            {
+                if (req.result != UnityWebRequest.Result.Success)
+                {
+                    tcs.SetException(new Exception(req.error));
+                }
+                else
+                {
+                    tcs.SetResult(new AudioRessource(getId, getRessourceName, DownloadHandlerAudioClip.GetContent(req)));
+                }
+            };
+            return await tcs.Task;
+        }
+
+        private AudioType GetAudioType(string fileExtension)
+        {
+            switch (fileExtension)
+            {
+                case "mp3":
+                    return AudioType.MPEG;
+                case "wav":
+                    return AudioType.WAV;
+                case "ogg":
+                    return AudioType.OGGVORBIS;
+                default:
+                    return AudioType.UNKNOWN;
+            }
+        }
+
+        private async Task<VideoRessource> GetVideoRessourceAsync(int getId, string getRessourceName)
+        {
+            // unity does not support VideoClip creation at runtime yet , you must use URL ase a source in the video player
+            return new VideoRessource(getId, getRessourceName);
+        }
+
+        private async Task<Ressource> GetRessourceAsync(int id, string getRessourceName)
+        {
+            var res = await API.GetAsync(API.ROUTE.ACTIONS_DATA + id + "/ressources/" + getRessourceName);
+            return null;
+        }
+
+        private async Task<ImageRessource> GetImageRessourceAsync(int id, string getRessourceName)
+        {
+            UnityWebRequest req = UnityWebRequestTexture.GetTexture(API.API_URL + API.ROUTE.ACTIONS_DATA + id + "/ressources/" + getRessourceName);
+            req.SetRequestHeader("Authorization", "Bearer " + AimXRManager.Instance.GetUser().token);
+            // wait for request to finish
+            TaskCompletionSource<ImageRessource> tcs = new TaskCompletionSource<ImageRessource>();
+
+            req.SendWebRequest().completed += (asyncOperation) =>
+            {
+                if (req.isNetworkError || req.isHttpError)
+                {
+                    Debug.LogError(req.error);
+                }
+                else
+                {
+                    Texture2D texture = DownloadHandlerTexture.GetContent(req);
+                    tcs.SetResult(new ImageRessource(id, getRessourceName, texture));
+                }
+            };
+            return await tcs.Task;
+        }
 
         private bool IsCacheExpired<T>(CacheItem<T> cache)
         {
             return (DateTime.Now - cache.CachedTime).TotalSeconds > 10;
+        }
+
+        static string GetFileExtension(string fileName)
+        {
+            string pattern = @"\.(.+)$";
+            Match match = Regex.Match(fileName, pattern);
+
+            if (match.Success)
+            {
+                return match.Groups[1].Value;
+            }
+
+            return string.Empty;
         }
 
         public void ClearCache()

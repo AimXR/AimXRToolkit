@@ -20,9 +20,13 @@ using System.Threading.Tasks;
 
 namespace AimXRToolkit.Managers
 {
-
     public class AimXRManager : MonoBehaviour
     {
+        public enum MODE
+        {
+            MIXED_REALITY,
+            VIRTUAL_REALITY
+        }
         private static AimXRManager _Instance;
         public static AimXRManager Instance => _Instance ?? throw new System.Exception("AimXRManager is not initialized");
         private Models.User _user;
@@ -35,6 +39,8 @@ namespace AimXRToolkit.Managers
         public UnityEngine.Audio.AudioMixerGroup audioMixerGroup;
         public AudioClip testClip;
         public LayerMask interactionsLayer;
+
+        public MODE mode = MODE.MIXED_REALITY;
         private void Awake()
         {
             // prevent creating multiple instances , delete the new one

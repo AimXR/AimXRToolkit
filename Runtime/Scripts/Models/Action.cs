@@ -30,7 +30,7 @@ namespace AimXRToolkit.Models
             this._hint = (string)data["hint"];
             //this._language = (string)data["language"];
             this._name = (string)data["name"];
-            //this._ressource = (string)data["ressource"]
+            this._ressource = (string)data["ressource"];
             this._tag = (string)data["tag"];
             this._type = (string)data["type"];
             this._position = new Vector3((float)(double)data["position"]["x"], (float)(double)data["position"]["y"], (float)(double)data["position"]["z"]);
@@ -93,7 +93,7 @@ namespace AimXRToolkit.Models
         /// getter for ressource
         /// </summary>
         /// <returns> path to the ressource </returns>
-        public string GetRessource()
+        public string GetRessourceName()
         {
             return _ressource;
         }

@@ -8,6 +8,7 @@ using AimXRToolkit.Interactions.Proxies;
 using AimXRToolkit.Managers;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Color = UnityEngine.Color;
 
 namespace AimXRToolkit.Managers
 {
@@ -32,6 +33,12 @@ namespace AimXRToolkit.Managers
             UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
             UserData.RegisterProxyType<ProxySwitch, Switch>(r => new ProxySwitch(r));
             flatedArtifact = Flatten(this.gameObject);
+            // add a box collider with max bound of the artifact children
+            var boxCollider = this.gameObject.AddComponent<BoxCollider>();
+            var bounds = GetMaxBounds(this.gameObject);
+            boxCollider.center = bounds.center;
+            boxCollider.size = bounds.size;
+
         }
 
         void Update()
@@ -176,6 +183,20 @@ namespace AimXRToolkit.Managers
         public GameObject GetArtifactPart(string name)
         {
             return flatedArtifact[name];
+        }
+
+        private Bounds GetMaxBounds(GameObject g)
+        {
+            var renderers = g.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0) return new Bounds(g.transform.position, Vector3.zero);
+            var b = renderers[0].bounds;
+            foreach (Renderer r in renderers)
+            {
+                b.Encapsulate(r.bounds);
+            }
+
+            Debug.DrawLine(b.min, b.max, Color.red, 0.16f);
+            return b;
         }
     }
 
