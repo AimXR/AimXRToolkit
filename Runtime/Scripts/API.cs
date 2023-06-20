@@ -50,8 +50,7 @@ namespace AimXRToolkit
             public static string EASY_GENERATE = "/easy/generate/";
             public static string EASY_CODE = "/easy/";
             public static string LANGUAGES = "/langs/";
-            [Obsolete("Use /lang/tts instead")]
-            public static string TTS = "/tts/";
+            public static string TTS = "/langs/tts/";
             public struct STATS
             {
                 public static string USERS = "/stats/users/";
