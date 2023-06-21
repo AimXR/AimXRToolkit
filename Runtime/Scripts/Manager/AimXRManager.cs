@@ -16,6 +16,7 @@
 using MoonSharp.Interpreter;
 using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AimXRToolkit.Managers
@@ -32,6 +33,7 @@ namespace AimXRToolkit.Managers
         private Models.User _user;
         private int _workplaceId;
         private int _activityId;
+        private Pose _workplacePose;
         private EasyLink _easyLink;
 
         [SerializeField]
@@ -103,6 +105,16 @@ namespace AimXRToolkit.Managers
         public int GetActivityId()
         {
             return _activityId;
+        }
+
+        public void setWorkplacePose(Pose p)
+        {
+            _workplacePose = p;
+        }
+
+        public Pose getWorkplacePose()
+        {
+            return _workplacePose;
         }
     }
 }
