@@ -31,7 +31,7 @@ namespace AimXRToolkit.Managers
         {
             _artifacts = new Dictionary<int, ArtifactManager>();
         }
-        public async void Spawn()
+        public async Task Spawn()
         {
             foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
             {
