@@ -21,16 +21,16 @@ namespace AimXRToolkit.Performance
 
         [SerializeField]
         [Tooltip("The activity manager of the scene")]
-        public ActivityManager activityManager;
+        // public ActivityManager activityManager;
         void Start()
         {
             _platform = Application.identifier + "/" + Application.version + " " + Application.productName;
-            if (activityManager == null)
-            {
-                activityManager = GetComponent<ActivityManager>();
-                if (activityManager == null)
-                    Debug.LogError("No ActivityManager found for this Performance Manager");
-            }
+            // if (activityManager == null)
+            // {
+            //     activityManager = GetComponent<ActivityManager>();
+            //     if (activityManager == null)
+            //         Debug.LogError("No ActivityManager found for this Performance Manager");
+            // }
         }
 
         // Update is called once per frame
@@ -49,6 +49,15 @@ namespace AimXRToolkit.Performance
             var res = await SendPerformanceStatementAsync(verb, action.ToPerformanceObject(), new PerformanceContext(_platform, AimXRManager.Instance.GetUser().language, 0, 0, _session));
             return res;
         }
+        private async Task<JsonData> SendActivityStatement(Verb verb, Models.Activity activity)
+        {
+            if (activity == null)
+            {
+                Debug.LogFormat("Can't send statement with verb {0} because activity is null", verb.Value);
+                return null;
+            }
+            return await SendPerformanceStatementAsync(verb, activity.ToPerformanceObject(), new PerformanceContext(_platform, AimXRManager.Instance.GetUser().language, 0, 0, _session));
+        }
         /// <summary>
         /// User has started an action
         /// </summary>
@@ -62,7 +71,6 @@ namespace AimXRToolkit.Performance
         /// User has completed an action
         /// </summary>
         /// <param name="action"></param>
-        /// <returns></returns>
         public async void ActionComplete(Models.Action action)
         {
             _ = await SendActionStatement(Verb.Complete, action);
@@ -72,7 +80,6 @@ namespace AimXRToolkit.Performance
         /// User skipped an action
         /// </summary>
         /// <param name="action"></param>
-        /// <returns>Statement return by the LRS in JSON</returns>
         public async void ActionSkip(Models.Action action)
         {
             _ = await SendActionStatement(Verb.Skip, action);
@@ -81,12 +88,26 @@ namespace AimXRToolkit.Performance
         /// <summary>
         /// User has requested help for an action
         /// </summary>
-        /// <param name="action"></param>
-        /// <returns>Statement return by the LRS in JSON</returns>
+        /// <param name="action">Current action</param>
         public async void ActionHelp(Models.Action action)
         {
             _ = await SendActionStatement(Verb.Help, action);
         }
+        /// <summary>
+        /// User has started an activity
+        /// </summary>
+        /// <param name="activity">started activity</param>
+        public async void ActivityStart(Models.Activity activity)
+        {
+            var res = await SendActivityStatement(Verb.Start, activity);
+            this._session = (int)res["context"]["session"];
+        }
+
+        public async void ActivityEnd(Models.Activity activity)
+        {
+            _ = await SendActivityStatement(Verb.Complete, activity);
+        }
+
 
         public async Task<JsonData> SendPerformanceStatementAsync(Verb verb, PerformanceObject performanceObject, PerformanceContext context)
         {

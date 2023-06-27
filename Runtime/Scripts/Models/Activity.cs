@@ -1,3 +1,4 @@
+using AimXRToolkit.Performance;
 using LitJson;
 using System;
 using System.Collections;
@@ -6,7 +7,7 @@ using UnityEngine;
 namespace AimXRToolkit.Models
 {
 
-    public class Activity : IPaginable
+    public class Activity : IPaginable, IPerformanceCapable
     {
         private readonly int _id;
         private readonly string _name;
@@ -68,6 +69,11 @@ namespace AimXRToolkit.Models
         public List<int> GetArtifacts()
         {
             return _artifacts;
+        }
+
+        public PerformanceObject ToPerformanceObject()
+        {
+            return new ActivityObject(this._id);
         }
     }
 

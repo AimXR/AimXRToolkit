@@ -15,6 +15,8 @@ namespace AimXRToolkit.Managers
         private Models.Activity _activity;
         private Models.Action _currentAction;
 
+        public Performance.Performance performance;
+
         [Header("Event launched after an action changed")]
         [SerializeField]
         public UnityEngine.Events.UnityEvent<Models.Action> onActionChange;
@@ -27,6 +29,10 @@ namespace AimXRToolkit.Managers
         [Header("Event launched when the action end")]
         public UnityEvent<Models.Action> onActionEnd;
 
+        [Header("Event launched when the action is played less than one second")]
+        [SerializeField]
+        public UnityEngine.Events.UnityEvent<Models.Action> onActionSkip;
+
         [Header("Event launched when the activity start")]
         [SerializeField]
         public UnityEngine.Events.UnityEvent<Models.Activity> onActivityStart;
@@ -36,6 +42,7 @@ namespace AimXRToolkit.Managers
         public UnityEngine.Events.UnityEvent<Models.Activity> onActivityEnd;
 
         private bool _started;
+        private float lastNext;
 
         void Start()
         {
@@ -63,6 +70,7 @@ namespace AimXRToolkit.Managers
                 onActionEnd.Invoke(_currentAction);
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetPrevious());
                 onActionStart.Invoke(_currentAction);
+                onActionChange.Invoke(_currentAction);
             }
             return _currentAction != null;
         }
@@ -79,10 +87,21 @@ namespace AimXRToolkit.Managers
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_activity.GetStart());
                 onActionChange.Invoke(_currentAction);
                 onActionStart.Invoke(_currentAction);
+                lastNext = Time.time;
             }
             else
             {
-                onActionEnd.Invoke(_currentAction);
+                float time = Time.time;
+                if (time - lastNext < 1.0f)
+                {
+                    onActionSkip.Invoke(_currentAction);
+                    performance.ActionSkip(_currentAction);
+                }
+                else
+                {
+                    onActionEnd.Invoke(_currentAction);
+                    performance.ActionComplete(_currentAction);
+                }
                 if (_currentAction.GetNext() < 1)
                 {
                     onActivityEnd.Invoke(_activity);
@@ -91,6 +110,8 @@ namespace AimXRToolkit.Managers
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
                 onActionStart.Invoke(_currentAction);
                 onActionChange.Invoke(_currentAction);
+                performance.ActionStart(_currentAction);
+                lastNext = Time.time;
             }
 
             return _currentAction != null;
@@ -98,6 +119,13 @@ namespace AimXRToolkit.Managers
         public Models.Action GetCurrentAction()
         {
             return _currentAction;
+        }
+
+        public void HelpRequested(){
+            performance.ActionHelp(_currentAction);
+        }
+        public void ReplayRequested(){
+            
         }
     }
 }
