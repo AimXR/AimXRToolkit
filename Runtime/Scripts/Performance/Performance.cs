@@ -127,6 +127,9 @@ namespace AimXRToolkit.Performance
             }
             return JsonMapper.ToObject(res.downloadHandler.text);
         }
+        public void Reset(){
+            this._session = 0;
+        }
     }
 
     public class PerformanceObject

@@ -127,6 +127,11 @@ namespace AimXRToolkit.Managers
         public void ReplayRequested(){
             
         }
+        public void ReloadActivity(){
+            _currentAction = null;
+            _started = false;
+            performance.Reset();
+        }
     }
 }
 
