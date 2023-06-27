@@ -7,19 +7,10 @@ namespace AimXRToolkit.Models
 {
     public interface IRessourceVisitor
     {
-        public virtual void visit(AudioRessource ressource)
-        {
-            Debug.Log("IRessourceVisitor: Default behavior");
-        }
+        public void visit(AudioRessource ressource);
 
-        public virtual void visit(ImageRessource ressource)
-        {
-            Debug.Log("IRessourceVisitor: Default behavior");
-        }
+        public void visit(ImageRessource ressource);
 
-        public virtual void visit(VideoRessource ressource)
-        {
-            Debug.Log("IRessourceVisitor: Default behavior");
-        }
+        public void visit(VideoRessource ressource);
     }
 }

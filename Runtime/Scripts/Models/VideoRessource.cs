@@ -21,7 +21,7 @@ namespace AimXRToolkit.Models
         /// <returns></returns>
         public string GetVideoUrl()
         {
-            return API.API_URL + API.ROUTE.ACTIONS_DATA + getActionId() + "/" + getRessourceName();
+            return API.API_URL + API.ROUTE.ACTIONS_DATA + getActionId() + "/ressources/" + getRessourceName();
         }
 
         public override string ToString()
