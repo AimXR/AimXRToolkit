@@ -19,5 +19,17 @@ namespace AimXRToolkit
                 return 0;
             return (int)data[key];
         }
+        
+        /// <summary>
+        /// Parse a nullable string from a JsonData object
+        /// </summary>
+        /// <param name="data">JsonData</param>
+        /// <param name="key">name of the field in json</param>
+        /// <returns>the string or null if null</returns>
+        public static string NullableString(JsonData data,string key){
+            if(data[key] == null)
+                return null;
+            return (string)data[key];
+        }
     }
 }
