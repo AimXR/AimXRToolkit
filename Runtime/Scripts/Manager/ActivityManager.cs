@@ -95,12 +95,26 @@ namespace AimXRToolkit.Managers
                 if (time - lastNext < 1.0f)
                 {
                     onActionSkip.Invoke(_currentAction);
-                    performance.ActionSkip(_currentAction);
+                    try
+                    {
+                        // performance.ActionSkip(_currentAction);
+
+                    }
+                    catch (System.Exception)
+                    {
+                    }
                 }
                 else
                 {
                     onActionEnd.Invoke(_currentAction);
-                    performance.ActionComplete(_currentAction);
+                    try
+                    {
+                        // performance.ActionComplete(_currentAction);
+
+                    }
+                    catch (System.Exception)
+                    {
+                    }
                 }
                 if (_currentAction.GetNext() < 1)
                 {
@@ -110,7 +124,13 @@ namespace AimXRToolkit.Managers
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
                 onActionStart.Invoke(_currentAction);
                 onActionChange.Invoke(_currentAction);
-                performance.ActionStart(_currentAction);
+                try
+                {
+                    // performance.ActionStart(_currentAction);
+                }
+                catch (System.Exception)
+                {
+                }
                 lastNext = Time.time;
             }
 
@@ -121,13 +141,16 @@ namespace AimXRToolkit.Managers
             return _currentAction;
         }
 
-        public void HelpRequested(){
+        public void HelpRequested()
+        {
             performance.ActionHelp(_currentAction);
         }
-        public void ReplayRequested(){
-            
+        public void ReplayRequested()
+        {
+
         }
-        public void ReloadActivity(){
+        public void ReloadActivity()
+        {
             _currentAction = null;
             _started = false;
             performance.Reset();

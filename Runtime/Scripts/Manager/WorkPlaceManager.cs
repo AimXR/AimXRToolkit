@@ -49,6 +49,7 @@ namespace AimXRToolkit.Managers
         public async Task<GameObject> SpawnArtifact(Models.ArtifactInstance instance, bool initLogic = false)
         {
             GameObject artifact = await LoadArtifactModel(instance.artifactId);
+            artifact.transform.position = new Vector3(0, -1000, 0);
             if (artifact == null) return null;
             var artifactManager = artifact.AddComponent<ArtifactManager>();
             artifactManager.SetArtifact(await DataManager.GetInstance().GetArtifactAsync(instance.artifactId));

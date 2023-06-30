@@ -39,6 +39,5 @@ namespace AimXRToolkit.Interactions
         {
             return _tag;
         }
-
     }
 }

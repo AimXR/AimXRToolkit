@@ -29,7 +29,32 @@ namespace AimXRToolkit.Interactions.Proxies
 
         public void Play()
         {
-            _sound.Play();
+            _sound.GetAudioSource().Play();
+        }
+        public void Stop()
+        {
+            _sound.GetAudioSource().Stop();
+        }
+        public void SetLoop(bool loop)
+        {
+            _sound.GetAudioSource().loop = loop;
+        }
+        public bool GetLoop()
+        {
+            return _sound.GetAudioSource().loop;
+        }
+        public void SetVolume(float volume)
+        {
+            _sound.GetAudioSource().volume = volume;
+        }
+        public void SetPlayOnStart(bool playOnStart)
+        {
+            _sound.GetAudioSource().playOnAwake = playOnStart;
+        }
+
+        public void setSoundId(int soundId)
+        {
+            _sound.SetSoundId(soundId);
         }
     }
 }

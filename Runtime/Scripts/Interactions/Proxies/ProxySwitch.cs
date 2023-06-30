@@ -41,5 +41,17 @@ namespace AimXRToolkit.Interactions.Proxies
         {
             _switch = s;
         }
+        public void SetState(bool state)
+        {
+            _switch.SetState(state);
+        }
+        public bool GetState()
+        {
+            return _switch.GetState();
+        }
+        public void SetStop(float angle)
+        {
+            _switch.SetStop(angle);
+        }
     }
 }

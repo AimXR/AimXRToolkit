@@ -48,7 +48,7 @@ namespace AimXRToolkit.Interactions
         {
             if (collision.gameObject.tag == "controller")
             {
-                base.getArtifactManager().CallFunction(base.GetTag(), "OnPressed");
+                base.getArtifactManager().CallFunction(base.GetTag(), "whenPressed");
             }
         }
 
@@ -56,7 +56,7 @@ namespace AimXRToolkit.Interactions
         {
             if (collision.gameObject.tag == "controller")
             {
-                base.getArtifactManager().CallFunction(base.GetTag(), "OnReleased");
+                base.getArtifactManager().CallFunction(base.GetTag(), "whenReleased");
             }
         }
     }

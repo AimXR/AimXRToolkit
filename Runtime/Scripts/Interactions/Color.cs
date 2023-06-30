@@ -21,6 +21,7 @@ namespace AimXRToolkit.Interactions
 
     public class Color : Interactable
     {
+        private string _hexaColor;
         public static Interactable Parse(Models.Component component, GameObject gameObject)
         {
             // var interactable = new GameObject().AddComponent<Color>();
@@ -32,7 +33,20 @@ namespace AimXRToolkit.Interactions
         public void SetColor(string hexa)
         {
             if (ColorUtility.TryParseHtmlString(hexa, out UnityEngine.Color color))
+            {
                 GetComponent<Renderer>().material.color = color;
+                _hexaColor = hexa;
+            }
+        }
+
+        /// <summary>
+        /// Returns the color in hexadecimal format
+        /// We do not use the color store in the material
+        /// in case that this method is used before the Material is initialized
+        /// </summary>
+        public string GetColor()
+        {
+            return _hexaColor;
         }
     }
 }

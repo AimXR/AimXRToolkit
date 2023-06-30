@@ -161,8 +161,8 @@ namespace AimXRToolkit.Managers
             {
                 case "Button":
                     return Button.Parse(component, obj);
-                // case "slide":
-                //     return Slide.Parse(component);
+                case "Slider":
+                    return Slider.Parse(component,obj);
                 // case "switch":
                 //     return Switch.Parse(component);
                 case "Color":

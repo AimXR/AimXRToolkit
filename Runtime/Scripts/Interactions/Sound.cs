@@ -26,15 +26,12 @@ namespace AimXRToolkit.Interactions
         public static AudioClip _audioClip;
 
         private AudioSource _audioSource;
-
-        private bool loop;
+        private int _soundId;
 
         void Start()
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
-            _audioSource.playOnAwake = false;
             _audioSource.spatialize = true;
-            _audioSource.loop = this.loop;
             _audioSource.outputAudioMixerGroup = AimXRToolkit.Managers.AimXRManager.Instance.audioMixerGroup;
             _audioSource.clip = AimXRToolkit.Managers.AimXRManager.Instance.testClip;
         }
@@ -53,21 +50,18 @@ namespace AimXRToolkit.Interactions
             return c;
         }
 
-        /// <summary>
-        /// Play the sound
-        /// </summary>
-        public void Play()
+        public void SetSoundId(int id)
         {
-            _audioSource.Play();
+            Debug.Log("SetSoundId: " + id);
         }
 
-        public void SetLoop(bool loop)
+        public AudioClip GetAudioClip()
         {
-            this.loop = loop;
+            return _audioSource.clip;
         }
-        public bool GetLoop()
+        public AudioSource GetAudioSource()
         {
-            return loop;
+            return _audioSource;
         }
     }
 }

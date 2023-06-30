@@ -30,5 +30,9 @@ namespace AimXRToolkit.Interactions.Proxies
         {
             _color.SetColor(hexa);
         }
+        public string GetColor()
+        {
+            return _color.GetColor();
+        }
     }
 }

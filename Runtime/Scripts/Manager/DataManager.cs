@@ -272,7 +272,7 @@ namespace AimXRToolkit.Managers
 
             if (videos.Contains(fileExtension.ToLower()))
             {
-                return await GetVideoRessourceAsync(action.GetId(), action.GetRessourceName());
+                return GetVideoRessource(action.GetId(), action.GetRessourceName());
             }
 
             if (audios.Contains(fileExtension.ToLower()))
@@ -316,7 +316,7 @@ namespace AimXRToolkit.Managers
             }
         }
 
-        private async Task<VideoRessource> GetVideoRessourceAsync(int getId, string getRessourceName)
+        private VideoRessource GetVideoRessource(int getId, string getRessourceName)
         {
             // unity does not support VideoClip creation at runtime yet , you must use URL ase a source in the video player
             return new VideoRessource(getId, getRessourceName);
@@ -337,7 +337,7 @@ namespace AimXRToolkit.Managers
 
             req.SendWebRequest().completed += (asyncOperation) =>
             {
-                if (req.isNetworkError || req.isHttpError)
+                if (req.result == UnityWebRequest.Result.ProtocolError || req.result == UnityWebRequest.Result.ConnectionError)
                 {
                     Debug.LogError(req.error);
                 }

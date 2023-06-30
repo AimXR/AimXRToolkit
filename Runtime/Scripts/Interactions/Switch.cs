@@ -51,27 +51,45 @@ namespace AimXRToolkit.Interactions
             _audioSource.clip = Managers.AimXRManager.Instance.testClip;
         }
 
+        public void SetStop(float angle)
+        {
+            _angle = angle;
+        }
+
         void OnTriggerEnter(Collider collision)
         {
             if (collision.gameObject.tag == "controller")
             {
                 _isOn = !_isOn;
                 _audioSource.Play();
-                // flip the switch by the angle
-                if (_isOn)
-                {
-                    this.gameObject.transform.Rotate(new Vector3(0, 0, _angle));
-                    base.getArtifactManager().CallFunction(base.GetTag(), "OnActivate");
-                }
-                else
-                {
-                    this.gameObject.transform.Rotate(new Vector3(0, 0, 0));
-                    base.getArtifactManager().CallFunction(base.GetTag(), "OnDeactivate");
-                }
+                ReactToState();
             }
-#if DEBUG
-        Debug.Log("switch " + collision.gameObject.name + " is on: " + _isOn);
-#endif
+
+        }
+        private void ReactToState()
+        {
+            // flip the switch by the angle
+            if (_isOn)
+            {
+                this.gameObject.transform.Rotate(new Vector3(-_angle, 0, 0));
+                base.getArtifactManager().CallFunction(base.GetTag(), "whenTurnedOn");
+            }
+            else
+            {
+                this.gameObject.transform.Rotate(new Vector3(0, 0, 0));
+                base.getArtifactManager().CallFunction(base.GetTag(), "whenTurnedOff");
+            }
+        }
+
+        public void SetState(bool state)
+        {
+            _isOn = state;
+            ReactToState();
+        }
+
+        public bool GetState()
+        {
+            return _isOn;
         }
     }
 }
