@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.XR.Interaction.Toolkit;
 namespace AimXRToolkit.Interactions
 {
     public class Socket : Interactable
@@ -10,6 +10,8 @@ namespace AimXRToolkit.Interactions
         private Vector3 _position;
         private Quaternion _rotation;
         private List<int> _accepted;
+
+        private XRSocketInteractor _socketInteractor;
         // Start is called before the first frame update
         void Start()
         {
@@ -35,10 +37,10 @@ namespace AimXRToolkit.Interactions
         }
         public void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.GetComponent<Grabbable>() != null)
+          /*  if (other.gameObject.GetComponent<Grabbable>() != null)
             {
                 _accepted.Add(other.gameObject.GetInstanceID());
-            }
+            }*/
         }
 
         public SocketType getSocketType()
