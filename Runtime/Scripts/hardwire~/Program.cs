@@ -15,6 +15,9 @@ class Program
         UserData.RegisterProxyType<ProxyColor, Color>(r => new ProxyColor(r));
         UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
         UserData.RegisterProxyType<ProxySwitch, Switch>(r => new ProxySwitch(r));
+        UserData.RegisterProxyType<ProxyGrabbable, Grabbable>(r => new ProxyGrabbable(r));
+        UserData.RegisterProxyType<ProxySlider, Slider>(r => new ProxySlider(r));
+        UserData.RegisterProxyType<ProxyHinge, Hinge>(r => new ProxyHinge(r));
         Table dump = UserData.GetDescriptionOfRegisteredTypes(true);
         // dump in a lua file here
         File.WriteAllText("hardwire.lua", dump.Serialize());
