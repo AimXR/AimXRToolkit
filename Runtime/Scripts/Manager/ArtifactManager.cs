@@ -163,14 +163,18 @@ namespace AimXRToolkit.Managers
                     return Button.Parse(component, obj);
                 case "Slider":
                     return Slider.Parse(component,obj);
-                // case "switch":
-                //     return Switch.Parse(component);
                 case "Color":
                     return Interactions.Color.Parse(component, obj);
                 case "Sound":
                     return Sound.Parse(component, obj);
                 case "Switch":
                     return Switch.Parse(component, obj);
+                case "Hinge":
+                    return Hinge.Parse(component, obj);
+                case "Crank":
+                    return Hinge.Parse(component, obj);
+                case "Grabbable":
+                    return Grabbable.Parse(component, obj);
                 default:
                     return null;
             }
