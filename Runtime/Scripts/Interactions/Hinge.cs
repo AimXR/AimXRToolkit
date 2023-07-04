@@ -23,7 +23,7 @@ namespace AimXRToolkit.Interactions
         {
         
         }
-        private void Awake()
+        private new void Awake()
         {
             _rigidbody = this.gameObject.AddComponent<Rigidbody>();
             _XRGrabInteractable = this.gameObject.AddComponent<XRGrabInteractable>();

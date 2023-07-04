@@ -10,10 +10,11 @@ namespace AimXRToolkit.Interactions
         private XRGrabInteractable _grabInteractable;
         private bool _useGravity;
         private bool _recreateWhenMove;
+
         // Start is called before the first frame update
         void Start()
         {
-        
+
         }
 
         // Update is called once per frame
@@ -22,12 +23,23 @@ namespace AimXRToolkit.Interactions
         
         }
 
+        private new void Awake()
+        {
+            if (!base.initiated)
+            {
+                var rigidBody = gameObject.AddComponent<Rigidbody>();
+                rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
+                var collider = gameObject.AddComponent<MeshCollider>();
+                collider.convex = true;
+                _grabInteractable = gameObject.AddComponent<XRGrabInteractable>(); // automatically register the collider
+                base.initiated = true;
+            }
+        }
+
         public static Interactable Parse(Models.Component component, GameObject gameObject)
         {
             Interactions.Grabbable c = gameObject.AddComponent<Interactions.Grabbable>();
             c.SetTag(component.GetTag());
-            var collider = gameObject.AddComponent<MeshCollider>();
-            c._grabInteractable.colliders.Add(collider);
             return c;
         }
 

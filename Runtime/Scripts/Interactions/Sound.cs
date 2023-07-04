@@ -32,7 +32,6 @@ namespace AimXRToolkit.Interactions
         {
             _audioSource = gameObject.AddComponent<AudioSource>();
             _audioSource.spatialize = true;
-            _audioSource.outputAudioMixerGroup = AimXRToolkit.Managers.AimXRManager.Instance.audioMixerGroup;
             _audioSource.clip = AimXRToolkit.Managers.AimXRManager.Instance.testClip;
         }
 

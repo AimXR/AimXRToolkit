@@ -72,12 +72,12 @@ namespace AimXRToolkit.Interactions
             if (_isOn)
             {
                 this.gameObject.transform.Rotate(new Vector3(-_angle, 0, 0));
-                base.getArtifactManager().CallFunction(base.GetTag(), "whenTurnedOn");
+                base.getArtifactManager().CallFunction(base.GetTag(), "WhenTurnedOn");
             }
             else
             {
                 this.gameObject.transform.Rotate(new Vector3(0, 0, 0));
-                base.getArtifactManager().CallFunction(base.GetTag(), "whenTurnedOff");
+                base.getArtifactManager().CallFunction(base.GetTag(), "WhenTurnedOff");
             }
         }
 

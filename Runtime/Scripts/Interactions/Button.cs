@@ -23,20 +23,25 @@ namespace AimXRToolkit.Interactions
         private MeshCollider _collider;
         private AudioClip _sound; // sound to play when the button is pressed
 
-
+        /// <summary>
+        /// <inheritdoc cref="Interactable.Awake" />
+        /// </summary>
+        private new void Awake()
+        {
+            if (!initiated)
+            {
+                Debug.Log("init button");
+                _collider = gameObject.AddComponent<MeshCollider>();
+                _collider.convex = true;
+                _collider.isTrigger = true;
+                initiated = true;
+            }
+        }
         public static Interactable Parse(Models.Component component, GameObject gameObject)
         {
             var interactable = gameObject.AddComponent<Interactions.Button>();
             interactable.SetTag(component.GetTag());
-            interactable.SetCollider(gameObject.GetComponent<MeshCollider>() ?? gameObject.AddComponent<MeshCollider>());
             return interactable;
-        }
-
-        void Start()
-        {
-            _collider = gameObject.AddComponent<MeshCollider>();
-            _collider.convex = true;
-            _collider.isTrigger = true;
         }
 
         public void SetCollider(MeshCollider collider)
@@ -48,7 +53,7 @@ namespace AimXRToolkit.Interactions
         {
             if (collision.gameObject.tag == "controller")
             {
-                base.getArtifactManager().CallFunction(base.GetTag(), "whenPressed");
+                base.getArtifactManager().CallFunction(base.GetTag(), "WhenPressed");
             }
         }
 
@@ -56,7 +61,7 @@ namespace AimXRToolkit.Interactions
         {
             if (collision.gameObject.tag == "controller")
             {
-                base.getArtifactManager().CallFunction(base.GetTag(), "whenReleased");
+                base.getArtifactManager().CallFunction(base.GetTag(), "WhenReleased");
             }
         }
     }

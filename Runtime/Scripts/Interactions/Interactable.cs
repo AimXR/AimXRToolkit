@@ -23,6 +23,18 @@ namespace AimXRToolkit.Interactions
     {
         private ArtifactManager _artifactManager; // machine to which the interactable is attached
         private string _tag; // unique tag of the component
+
+        protected bool initiated;
+
+        /// <summary>
+        /// We need to add all components to the gameobject before his configuration in the Parse Method <br/>
+        /// We can't use Start because it will be call the next frame, so we use Awake but we need to make that the code
+        /// execute only one time
+        /// </summary>
+        protected virtual void Awake()
+        {
+            
+        }
         public void setArtifactManager(ArtifactManager artifactManager)
         {
             _artifactManager = artifactManager;

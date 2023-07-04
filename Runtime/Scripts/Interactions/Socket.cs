@@ -17,9 +17,13 @@ namespace AimXRToolkit.Interactions
         {
 
         }
-        void Awake()
+        new void Awake()
         {
-            _accepted = new List<int>();
+            if (!base.initiated)
+            {
+                _accepted = new List<int>();
+                base.initiated = true;
+            }
         }
 
         // Update is called once per frame
