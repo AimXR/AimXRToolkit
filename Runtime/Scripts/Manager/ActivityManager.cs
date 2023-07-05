@@ -88,6 +88,7 @@ namespace AimXRToolkit.Managers
                 onActionChange.Invoke(_currentAction);
                 onActionStart.Invoke(_currentAction);
                 lastNext = Time.time;
+                performance.ActivityStart(_activity);
             }
             else
             {
@@ -97,7 +98,7 @@ namespace AimXRToolkit.Managers
                     onActionSkip.Invoke(_currentAction);
                     try
                     {
-                        // performance.ActionSkip(_currentAction);
+                        performance.ActionSkip(_currentAction);
 
                     }
                     catch (System.Exception)
@@ -109,7 +110,7 @@ namespace AimXRToolkit.Managers
                     onActionEnd.Invoke(_currentAction);
                     try
                     {
-                        // performance.ActionComplete(_currentAction);
+                        performance.ActionComplete(_currentAction);
 
                     }
                     catch (System.Exception)
@@ -119,6 +120,7 @@ namespace AimXRToolkit.Managers
                 if (_currentAction.GetNext() < 1)
                 {
                     onActivityEnd.Invoke(_activity);
+                    performance.ActivityEnd(_activity);
                     return false;
                 }
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
@@ -126,7 +128,7 @@ namespace AimXRToolkit.Managers
                 onActionChange.Invoke(_currentAction);
                 try
                 {
-                    // performance.ActionStart(_currentAction);
+                    performance.ActionStart(_currentAction);
                 }
                 catch (System.Exception)
                 {

@@ -99,6 +99,7 @@ namespace AimXRToolkit.Models
         /// <returns>User if token is valid else null</returns>
         public static async Task<User> GetUserFromToken(string token)
         {
+            Debug.Log("TOKEN " + token);
             var res = await API.ExecuteAsync(API.ROUTE.USERS + "me", API.Method.Get, API.Type.None, "",
                 new Dictionary<string, string>() { { "Authorization", token } }
                 );

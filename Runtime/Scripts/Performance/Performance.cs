@@ -7,6 +7,7 @@ using UnityEngine.Networking;
 using AimXRToolkit.Managers;
 using AimXRToolkit.Models;
 using AimXRToolkit.Performance;
+using System;
 
 namespace AimXRToolkit.Performance
 {
@@ -99,7 +100,9 @@ namespace AimXRToolkit.Performance
         /// <param name="activity">started activity</param>
         public async void ActivityStart(Models.Activity activity)
         {
+            Debug.Log("oui");
             var res = await SendActivityStatement(Verb.Start, activity);
+            Debug.Log("oui oui");
             this._session = (int)res["context"]["session"];
         }
 
@@ -111,8 +114,12 @@ namespace AimXRToolkit.Performance
 
         public async Task<JsonData> SendPerformanceStatementAsync(Verb verb, PerformanceObject performanceObject, PerformanceContext context)
         {
+            if (AimXRManager.Instance.GetUser() == null)
+                throw new Exception("User must be logged in");
+            else
+                Debug.Log("PERFORMANCE TOKEN : "+AimXRManager.Instance.GetUser().token);
             JsonData jsonBody = new JsonData();
-            jsonBody["actor"] = 1;
+            jsonBody["actor"] = AimXRManager.Instance.GetUser().id;
             jsonBody["verb"] = verb.Value;
             jsonBody["object"] = performanceObject.ToJson();
             jsonBody["context"] = context.ToJson();

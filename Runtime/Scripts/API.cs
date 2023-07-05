@@ -165,7 +165,7 @@ namespace AimXRToolkit
                 case Type.Form: request.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded"); break;
                 default: break;
             }
-            request.SetRequestHeader("Authorization", "Bearer " + token);
+            request.SetRequestHeader("Authorization",token);
             TaskCompletionSource<UnityWebRequest> tcs = new TaskCompletionSource<UnityWebRequest>();
             request.SendWebRequest().completed += (op) => tcs.SetResult(request);
             return await tcs.Task;
