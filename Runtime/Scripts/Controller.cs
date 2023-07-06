@@ -23,8 +23,7 @@ namespace AimXRToolkit
         public InputActionReference grabAction;
         public InputActionReference triggerAction;
         public InputActionProperty grabActionProperty;
-
-        public ControllerDebug controllerDebug;
+        
         void Start()
         {
             if (grabAction != null)

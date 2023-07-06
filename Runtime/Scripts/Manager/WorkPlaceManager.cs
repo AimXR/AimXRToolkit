@@ -26,7 +26,9 @@ namespace AimXRToolkit.Managers
         [SerializeField]
         public LoaderSource loaderSource = null!;
         private Models.Workplace _workplace = null!;
+        // instances ids and their corresponding artifact managers
         private Dictionary<int, ArtifactManager> _artifacts = null;
+        // instances ids and their corresponding artifact managers
         private Dictionary<int, ArtifactManager> _artifactInstances = null;
 
         public void Start()
