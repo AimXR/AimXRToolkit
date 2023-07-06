@@ -88,7 +88,8 @@ namespace AimXRToolkit.Managers
                 onActionChange.Invoke(_currentAction);
                 onActionStart.Invoke(_currentAction);
                 lastNext = Time.time;
-                performance.ActivityStart(_activity);
+                await performance.ActivityStart(_activity);
+                performance.ActionStart(_currentAction);
             }
             else
             {

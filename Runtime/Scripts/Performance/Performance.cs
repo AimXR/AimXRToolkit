@@ -98,12 +98,11 @@ namespace AimXRToolkit.Performance
         /// User has started an activity
         /// </summary>
         /// <param name="activity">started activity</param>
-        public async void ActivityStart(Models.Activity activity)
+        public async Task ActivityStart(Models.Activity activity)
         {
-            Debug.Log("oui");
             var res = await SendActivityStatement(Verb.Start, activity);
-            Debug.Log("oui oui");
             this._session = (int)res["context"]["session"];
+            await Task.CompletedTask;
         }
 
         public async void ActivityEnd(Models.Activity activity)
@@ -116,8 +115,6 @@ namespace AimXRToolkit.Performance
         {
             if (AimXRManager.Instance.GetUser() == null)
                 throw new Exception("User must be logged in");
-            else
-                Debug.Log("PERFORMANCE TOKEN : "+AimXRManager.Instance.GetUser().token);
             JsonData jsonBody = new JsonData();
             jsonBody["actor"] = AimXRManager.Instance.GetUser().id;
             jsonBody["verb"] = verb.Value;
