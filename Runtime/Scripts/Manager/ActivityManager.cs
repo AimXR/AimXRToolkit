@@ -68,9 +68,11 @@ namespace AimXRToolkit.Managers
                     return false;
                 }
                 onActionEnd.Invoke(_currentAction);
+                performance.ActionComplete(_currentAction);
                 _currentAction = await Managers.DataManager.GetInstance().GetActionAsync(_currentAction.GetPrevious());
                 onActionStart.Invoke(_currentAction);
                 onActionChange.Invoke(_currentAction);
+                performance.ActionStart(_currentAction);
             }
             return _currentAction != null;
         }
