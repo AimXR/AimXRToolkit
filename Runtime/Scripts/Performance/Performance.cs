@@ -120,6 +120,7 @@ namespace AimXRToolkit.Performance
             jsonBody["verb"] = verb.Value;
             jsonBody["object"] = performanceObject.ToJson();
             jsonBody["context"] = context.ToJson();
+            jsonBody["timestamp"] = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ss.ffffffzzz");
             var res = await API.ExecuteLoggedAsync(API.ROUTE.PERFORMANCE + "statements", API.Method.Post, AimXRManager.Instance.GetUser().token, API.Type.Json, jsonBody.ToJson());
             if (res.responseCode != 200)
             {
