@@ -30,7 +30,6 @@ namespace AimXRToolkit.Interactions
         {
             if (!initiated)
             {
-                Debug.Log("init button");
                 _collider = gameObject.AddComponent<MeshCollider>();
                 _collider.convex = true;
                 _collider.isTrigger = true;
