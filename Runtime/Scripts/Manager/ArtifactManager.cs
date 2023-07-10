@@ -71,7 +71,7 @@ namespace AimXRToolkit.Managers
                         Table table = (Table)this._script.Globals[componentObj.GetTag()];
                         table["interactable"] = UserData.Create(interactable);
 
-                        this._script.DoString(formatted);
+                        this._script.DoString(componentObj.GetScript());
                     }
                 }
             }
