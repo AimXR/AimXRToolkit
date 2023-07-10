@@ -71,29 +71,7 @@ namespace AimXRToolkit.Managers
                         Table table = (Table)this._script.Globals[componentObj.GetTag()];
                         table["interactable"] = UserData.Create(interactable);
 
-                        string pattern = @"function\s+(\w+)\s*\(\)\s*(.*?)\s*end";
-                        MatchCollection matches = Regex.Matches(componentObj.GetScript(), pattern, RegexOptions.Singleline);
-
-                        foreach (Match match in matches)
-                        {
-                            string name = match.Groups[1].Value;
-                            string body = match.Groups[2].Value;
-
-                            /**
-                            See https://groups.google.com/g/moonsharp/c/LjAiI5FpKHg if you want to use ['obj'].foo instead of ['obj']['foo']
-
-                            can't add properties to a proxy object so wee use a table accessible by the tag of the component that have two fields:
-                            - interactable: the proxy object
-                            - events: a table that contains the functions of the component
-                            **/
-                            const string code = @"
-                            _G['{0}'].events.{1} = function()
-                                {2}
-                            end
-                            ";
-                            string formatted = string.Format(code, componentObj.GetTag(), name, body);
-                            this._script.DoString(formatted);
-                        }
+                        this._script.DoString(formatted);
                     }
                 }
             }
@@ -162,7 +140,7 @@ namespace AimXRToolkit.Managers
                 case "Button":
                     return Button.Parse(component, obj);
                 case "Slider":
-                    return Slider.Parse(component,obj);
+                    return Slider.Parse(component, obj);
                 case "Color":
                     return Interactions.Color.Parse(component, obj);
                 case "Sound":
