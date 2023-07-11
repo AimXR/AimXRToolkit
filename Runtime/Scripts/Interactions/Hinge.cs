@@ -28,6 +28,7 @@ namespace AimXRToolkit.Interactions
             _rigidbody = this.gameObject.AddComponent<Rigidbody>();
             _XRGrabInteractable = this.gameObject.AddComponent<XRGrabInteractable>();
             _hingeJoint = this.gameObject.AddComponent<UnityEngine.HingeJoint>();
+            _hingeJoint.anchor = new Vector3(0, 0, 0);
         }
 
         public static Interactable Parse(Models.Component component, GameObject gameObject)
