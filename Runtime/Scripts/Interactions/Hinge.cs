@@ -26,7 +26,9 @@ namespace AimXRToolkit.Interactions
         private new void Awake()
         {
             _rigidbody = this.gameObject.AddComponent<Rigidbody>();
+            _rigidbody.isKinematic = true;
             _XRGrabInteractable = this.gameObject.AddComponent<XRGrabInteractable>();
+            _XRGrabInteractable.movementType = XRBaseInteractable.MovementType.VelocityTracking;
             _hingeJoint = this.gameObject.AddComponent<UnityEngine.HingeJoint>();
             _hingeJoint.anchor = new Vector3(0, 0, 0);
         }
@@ -76,6 +78,9 @@ namespace AimXRToolkit.Interactions
             Collider collider = obj.GetComponent<Collider>();
             if (collider == null)
                 collider = obj.AddComponent<BoxCollider>();
+            else
+                if (collider is MeshCollider)
+                ((MeshCollider)(collider)).convex = true;
             this._XRGrabInteractable.colliders.Clear();
             this._XRGrabInteractable.colliders.Add(collider);
         }
