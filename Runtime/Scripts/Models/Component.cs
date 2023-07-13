@@ -38,10 +38,10 @@ namespace AimXRToolkit.Models
             _type = (string)data["type"];
             _properties = new Dictionary<string, string>();
             _target = (int)data["target"];
-            foreach (LitJson.JsonData property in data["properties"])
+            /*foreach (LitJson.JsonData property in data["properties"])
             {
                 _properties.Add((string)property["name"], (string)property["value"]);
-            }
+            }*/
         }
         public int GetId()
         {

@@ -141,6 +141,18 @@ namespace AimXRToolkit.Managers
 
             return _currentAction != null;
         }
+        public async Task<bool> JumpTo(int id)
+        {
+            try
+            {
+                _currentAction = await DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Jump to action : "+id+" failed");
+            }
+            return true;
+        }
         public Models.Action GetCurrentAction()
         {
             return _currentAction;
@@ -150,9 +162,9 @@ namespace AimXRToolkit.Managers
         {
             performance.ActionHelp(_currentAction);
         }
-        public void ReplayRequested()
+        public void RepeatRequested()
         {
-
+            performance.ActionRepeat(_currentAction);
         }
         public void ReloadActivity()
         {

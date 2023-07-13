@@ -94,6 +94,10 @@ namespace AimXRToolkit.Performance
         {
             _ = await SendActionStatement(Verb.Help, action);
         }
+        public async void ActionRepeat(Models.Action action)
+        {
+            _ = await SendActionStatement(Verb.Repeat,action);
+        }
         /// <summary>
         /// User has started an activity
         /// </summary>
@@ -264,6 +268,7 @@ namespace AimXRToolkit.Performance
         public static Verb Skip => new Verb("skip");
 
         public static Verb View => new Verb("view");
+        public static Verb Repeat => new Verb("repeat");
 
     }
 

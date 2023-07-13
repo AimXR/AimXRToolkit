@@ -17,6 +17,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace AimXRToolkit.Managers
 {
@@ -41,10 +42,19 @@ namespace AimXRToolkit.Managers
         {
             foreach (Models.ArtifactInstance instance in _workplace.GetArtifacts())
             {
-                var artifact = await SpawnArtifact(instance,
+                try
+                {
+                    var artifact = await SpawnArtifact(instance,
                     AimXRManager.Instance.mode == AimXRManager.MODE.VIRTUAL_REALITY);
-                artifact.transform.position = instance.position;
-                artifact.transform.rotation = Quaternion.Euler(instance.rotation * Mathf.Rad2Deg);
+                    artifact.transform.position = instance.position;
+                    artifact.transform.rotation = Quaternion.Euler(instance.rotation * Mathf.Rad2Deg);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Fail to load artifact " + instance.artifactId);
+                    Debug.LogError(e);
+                }
+
             }
         }
 

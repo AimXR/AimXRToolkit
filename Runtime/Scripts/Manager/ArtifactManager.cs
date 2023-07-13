@@ -25,9 +25,7 @@ namespace AimXRToolkit.Managers
             _interactables = new List<Interactable>();
             this._script = new Script();
             this._script.Options.DebugPrint = s => Debug.Log(s);
-            // UserData.RegisterProxyType<ProxyInteractable, Interactable>(r => new ProxyInteractable(r));
-            // UserData.RegisterProxyType<ProxySlide, Slide>(r => new ProxySlide(r));
-            // UserData.RegisterProxyType<ProxyButton, SwitchCollider>(r => new ProxySwitch(r));
+
             UserData.RegisterProxyType<ProxyButton, Button>(r => new ProxyButton(r));
             UserData.RegisterProxyType<ProxyColor, Interactions.Color>(r => new ProxyColor(r));
             UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
@@ -57,22 +55,46 @@ namespace AimXRToolkit.Managers
                 {
                     var componentObj = await dm.GetComponentAsync(component);
                     var interactable = ParseComponent(componentObj, obj);
-
                     if (interactable != null)
                     {
                         interactable.setArtifactManager(this);
                         this._interactables.Add(interactable);
+                        this._script.DoString("_G[\"" + componentObj.GetTag() + "\"] = {}");
+                        this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].events = {}");
+                        this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].interactable = {}");
 
-
-                        this._script.DoString("_G['" + componentObj.GetTag() + "'] = {}");
-                        this._script.DoString("_G['" + componentObj.GetTag() + "'].events = {}");
-                        this._script.DoString("_G['" + componentObj.GetTag() + "'].interactable = {}");
                         // DynValue table = (DynValue)this._script.Globals[componentObj.GetTag()];
                         Table table = (Table)this._script.Globals[componentObj.GetTag()];
                         table["interactable"] = UserData.Create(interactable);
-
-                        this._script.DoString(componentObj.GetScript());
                     }
+                    else
+                    {
+                        Debug.LogError("Can't parse : " + componentObj.GetComponentType());
+                    }
+                }
+                foreach (var component in components)
+                {
+                    var componentObj = await dm.GetComponentAsync(component);
+                    Debug.Log(" < === START Component " + componentObj.GetTag() + " === >");
+                    this._script.DoString("print(\"After value = \" .. _G[\"uwu\"])");
+                    try
+                    {
+                        Debug.Log("Checks : ");
+                        Debug.Log("object" + !this._script.DoString("print(_G[\"" + componentObj.GetTag() + "\"])").IsNil());
+                        Debug.Log("events" + !this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].events").IsNil());
+                        Debug.Log("whenpressed " + !this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].events.WhenPressed").IsNil());
+                        Debug.Log("Running script");
+                        Debug.Log(componentObj.GetScript());
+                        this._script.DoString(componentObj.GetScript());
+                        Debug.Log(componentObj.GetScript() + "marche");
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError(e);
+                        Debug.Log("Script was \n" + componentObj.GetScript());
+                        Debug.Log("Component was " + componentObj.GetId()+" "+componentObj.GetTag()+" "+componentObj.GetComponentType());
+                    }
+                    Debug.Log(" < === END Component " + componentObj.GetTag() + " === >");
                 }
             }
 
@@ -87,6 +109,31 @@ namespace AimXRToolkit.Managers
                 if (obj.GetComponent<Collider>() == null)
                 {
                     obj.AddComponent<MeshCollider>();
+                }
+            }
+            foreach(var interactable in this._interactables)
+            {
+                Closure function = null;
+                try
+                {
+                    function = this._script.Globals.Get(interactable.tag).Table.Get("events").Table.Get("Start").Function;
+                    Debug.Log("function");
+                    Debug.Log(function);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("No Start event");
+                    Debug.Log(e);
+                    continue;
+                }
+                try
+                {
+                    function.Call();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Fail to call Start function");
+                    Debug.Log(e);
                 }
             }
         }
