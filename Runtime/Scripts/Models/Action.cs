@@ -19,6 +19,7 @@ namespace AimXRToolkit.Models
         private readonly string _tag;
         private readonly string _type;
         private readonly Vector3 _position;
+        private Choice _choice;
 
         public Action(JsonData data)
         {
@@ -34,6 +35,10 @@ namespace AimXRToolkit.Models
             this._tag = (string)data["tag"];
             this._type = (string)data["type"];
             this._position = new Vector3((float)(double)data["position"]["x"], (float)(double)data["position"]["y"], (float)(double)data["position"]["z"]);
+            if (data["choice"] != null && this._type == "choice")
+            {
+                this._choice = new Choice(data["choice"]);
+            }
         }
 
 
@@ -126,6 +131,11 @@ namespace AimXRToolkit.Models
         public Vector3 GetPosition()
         {
             return _position;
+        }
+
+        public Choice GetChoice()
+        {
+            return _choice;
         }
     }
 }

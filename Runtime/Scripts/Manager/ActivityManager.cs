@@ -141,6 +141,11 @@ namespace AimXRToolkit.Managers
 
             return _currentAction != null;
         }
+        /// <summary>
+        /// Allow the activity manager to jump to an action
+        /// </summary>
+        /// <param name="id">id of the action</param>
+        /// <returns>true when jump worked</returns>
         public async Task<bool> JumpTo(int id)
         {
             try
