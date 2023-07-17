@@ -145,7 +145,12 @@ namespace AimXRToolkit.Managers
         {
             try
             {
+                onActionEnd.Invoke(_currentAction);
+                performance.ActionComplete(_currentAction);
                 _currentAction = await DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
+                onActionStart.Invoke(_currentAction);
+                performance.ActionStart(_currentAction);
+                onActionChange.Invoke(_currentAction);
             }
             catch (Exception e)
             {
