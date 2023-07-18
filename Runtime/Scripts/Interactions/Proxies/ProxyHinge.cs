@@ -32,5 +32,9 @@ namespace AimXRToolkit.Interactions.Proxies
         {
             this._hinge.SetTarget(target);
         }
+        public void SetAngle(float angle)
+        {
+            this.SetAngle(angle);
+        }
     }
 }

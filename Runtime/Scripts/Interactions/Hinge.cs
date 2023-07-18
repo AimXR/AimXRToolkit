@@ -7,15 +7,13 @@ namespace AimXRToolkit.Interactions
 {
     public class Hinge : Interactable
     {
-        private float _angle;
-
         private HingeJoint _hingeJoint;
         private XRGrabInteractable _XRGrabInteractable;
         private Rigidbody _rigidbody;
         // Start is called before the first frame update
         void Start()
         {
-        
+            UseLimits(true);
         }
 
         // Update is called once per frame
