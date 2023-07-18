@@ -152,7 +152,7 @@ namespace AimXRToolkit.Managers
             {
                 onActionEnd.Invoke(_currentAction);
                 performance.ActionComplete(_currentAction);
-                _currentAction = await DataManager.GetInstance().GetActionAsync(_currentAction.GetNext());
+                _currentAction = await DataManager.GetInstance().GetActionAsync(id);
                 onActionStart.Invoke(_currentAction);
                 performance.ActionStart(_currentAction);
                 onActionChange.Invoke(_currentAction);
