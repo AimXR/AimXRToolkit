@@ -23,6 +23,7 @@ namespace AimXRToolkit.Interactions
     {
         private ArtifactManager _artifactManager; // machine to which the interactable is attached
         private string _tag; // unique tag of the component
+        private Models.Component _component;
 
         protected bool initiated;
 
@@ -38,6 +39,14 @@ namespace AimXRToolkit.Interactions
         public void setArtifactManager(ArtifactManager artifactManager)
         {
             _artifactManager = artifactManager;
+        }
+        public void SetComponentObj(Models.Component component)
+        {
+            this._component = component;
+        }
+        public Models.Component GetComponentObj()
+        {
+            return _component;
         }
         public ArtifactManager getArtifactManager()
         {

@@ -225,8 +225,8 @@ namespace AimXRToolkit.Managers
         public async Task<Page<ActivityShort>> GetActivitiesAsync(int page, int pageSize, int workplaceId = 0)
         {
             var res = workplaceId > 0
-                ? await API.GetAsync(API.ROUTE.ACTIVITIES_SEARCH + "?page=" + page + "&size=" + pageSize + "&workplace=" + workplaceId)
-                : await API.GetAsync(API.ROUTE.ACTIVITIES + "?page=" + page + "&size=" + pageSize);
+                ? await API.GetAsync(API.ROUTE.ACTIVITIES_SEARCH + "?page=" + page + "&size=" + pageSize + "&workplace=" + workplaceId + "&language_code=" + AimXRManager.Instance.GetUser().language)
+                : await API.GetAsync(API.ROUTE.ACTIVITIES + "?page=" + page + "&size=" + pageSize + "&language_code=" + AimXRManager.Instance.GetUser().language);
             if (res.responseCode == 404)
             {
                 throw new WorkplaceNotFoundException(workplaceId);
@@ -237,7 +237,7 @@ namespace AimXRToolkit.Managers
 
         public async Task<Page<WorkplaceShort>> GetWorkplacesAsync(int page, int pageSize)
         {
-            var res = await API.GetAsync(API.ROUTE.WORKPLACES + "?page=" + page + "&size=" + pageSize);
+            var res = await API.GetAsync(API.ROUTE.WORKPLACES + "?page=" + page + "&size=" + pageSize + "&language_code=" + AimXRManager.Instance.GetUser().language);
             JsonData data = JsonMapper.ToObject(res.downloadHandler.text);
             return new Page<WorkplaceShort>(data);
         }

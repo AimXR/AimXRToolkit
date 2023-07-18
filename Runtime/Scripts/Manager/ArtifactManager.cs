@@ -30,6 +30,7 @@ namespace AimXRToolkit.Managers
             UserData.RegisterProxyType<ProxyColor, Interactions.Color>(r => new ProxyColor(r));
             UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
             UserData.RegisterProxyType<ProxySwitch, Switch>(r => new ProxySwitch(r));
+            UserData.RegisterProxyType<ProxyHinge, Hinge>(r => new ProxyHinge(r));
             flatedArtifact = Flatten(this.gameObject);
             // add a box collider with max bound of the artifact children
             var boxCollider = this.gameObject.AddComponent<BoxCollider>();
@@ -58,6 +59,7 @@ namespace AimXRToolkit.Managers
                     if (interactable != null)
                     {
                         interactable.setArtifactManager(this);
+                        interactable.SetComponentObj(componentObj);
                         this._interactables.Add(interactable);
                         this._script.DoString("_G[\"" + componentObj.GetTag() + "\"] = {}");
                         this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].events = {}");
@@ -76,17 +78,10 @@ namespace AimXRToolkit.Managers
                 {
                     var componentObj = await dm.GetComponentAsync(component);
                     Debug.Log(" < === START Component " + componentObj.GetTag() + " === >");
-                    this._script.DoString("print(\"After value = \" .. _G[\"uwu\"])");
                     try
                     {
-                        Debug.Log("Checks : ");
-                        Debug.Log("object" + !this._script.DoString("print(_G[\"" + componentObj.GetTag() + "\"])").IsNil());
-                        Debug.Log("events" + !this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].events").IsNil());
-                        Debug.Log("whenpressed " + !this._script.DoString("_G[\"" + componentObj.GetTag() + "\"].events.WhenPressed").IsNil());
-                        Debug.Log("Running script");
                         Debug.Log(componentObj.GetScript());
                         this._script.DoString(componentObj.GetScript());
-                        Debug.Log(componentObj.GetScript() + "marche");
                     }
                     catch (Exception e)
                     {
@@ -113,16 +108,45 @@ namespace AimXRToolkit.Managers
             }
             foreach(var interactable in this._interactables)
             {
-                Closure function = null;
+                string pattern = @"].events.Start = function\(\)\s+(.*?)\s+end";
+                Match match = Regex.Match(interactable.GetComponentObj().GetScript(), pattern, RegexOptions.Singleline);
+
+                if (match.Success)
+                {
+                    string startFunctionCode = match.Groups[1].Value;
+                    Debug.Log("Code de la fonction Start:\n" + startFunctionCode);
+                    try
+                    {
+                        
+                        foreach(var line in startFunctionCode.Split("\n"))
+                        {
+                            Debug.Log(line);
+                            this._script.DoString(line);
+                        }
+                        Debug.Log("OK START");
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.Log("Fail to load start code");
+                        Debug.Log(e);
+                    }
+                }
+                else
+                {
+                    Debug.Log("La fonction Start n'a pas été trouvée.");
+                }
+
+                /*Closure function = null;
                 try
                 {
-                    function = this._script.Globals.Get(interactable.tag).Table.Get("events").Table.Get("Start").Function;
+                    function = this._script.Globals.Get(interactable.GetComponentObj().GetTag()).Table.Get("events").Table.Get("Start").Function;
                     Debug.Log("function");
+                    Debug.Log("component : "+interactable.GetComponentObj().GetTag()+" id :"+interactable.GetComponentObj().GetId()+"\n"+interactable.GetComponentObj().GetScript());
                     Debug.Log(function);
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("No Start event");
+                    Debug.Log("No Start event for component ");
                     Debug.Log(e);
                     continue;
                 }
@@ -134,7 +158,7 @@ namespace AimXRToolkit.Managers
                 {
                     Debug.Log("Fail to call Start function");
                     Debug.Log(e);
-                }
+                }*/
             }
         }
 
