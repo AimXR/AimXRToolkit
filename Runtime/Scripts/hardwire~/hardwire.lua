@@ -1396,6 +1396,36 @@ ${
 					},
 				},
 			},
+			SetAngle = ${
+				class = "MoonSharp.Interpreter.Interop.OverloadedMethodMemberDescriptor",
+				name = "SetAngle",
+				decltype = "AimXRToolkit.Interactions.Proxies.ProxyHinge",
+				overloads = ${
+					[1] = ${
+						class = "MoonSharp.Interpreter.Interop.MethodMemberDescriptor",
+						name = "SetAngle",
+						ctor = false,
+						special = false,
+						visibility = "public",
+						ret = "System.Void",
+						decltype = "AimXRToolkit.Interactions.Proxies.ProxyHinge",
+						static = false,
+						extension = false,
+						params = ${
+							[1] = ${
+								name = "angle",
+								type = "System.Single",
+								origtype = "System.Single",
+								default = false,
+								out = false,
+								ref = false,
+								varargs = false,
+								restricted = false,
+							},
+						},
+					},
+				},
+			},
 			GetType = ${
 				class = "MoonSharp.Interpreter.Interop.OverloadedMethodMemberDescriptor",
 				name = "GetType",
