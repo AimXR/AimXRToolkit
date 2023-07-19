@@ -55,7 +55,7 @@ namespace AimXRToolkit.Interactions
         }
         public void SetAngle(float angle)
         {
-            this.transform.localEulerAngles = new Vector3(-angle, 0, 0);
+            this.transform.localEulerAngles = new Vector3(-angle, this.transform.localEulerAngles.y, this.transform.localEulerAngles.z);
         }
         public void UseLimits(bool use)
         {

@@ -31,6 +31,7 @@ namespace AimXRToolkit.Managers
             UserData.RegisterProxyType<ProxySound, Sound>(r => new ProxySound(r));
             UserData.RegisterProxyType<ProxySwitch, Switch>(r => new ProxySwitch(r));
             UserData.RegisterProxyType<ProxyHinge, Hinge>(r => new ProxyHinge(r));
+            UserData.RegisterProxyType<ProxySlider, Slider>(r => new ProxySlider(r));
             flatedArtifact = Flatten(this.gameObject);
             // add a box collider with max bound of the artifact children
             var boxCollider = this.gameObject.AddComponent<BoxCollider>();
@@ -77,7 +78,6 @@ namespace AimXRToolkit.Managers
                 foreach (var component in components)
                 {
                     var componentObj = await dm.GetComponentAsync(component);
-                    Debug.Log(" < === START Component " + componentObj.GetTag() + " === >");
                     try
                     {
                         Debug.Log(componentObj.GetScript());
@@ -89,7 +89,6 @@ namespace AimXRToolkit.Managers
                         Debug.Log("Script was \n" + componentObj.GetScript());
                         Debug.Log("Component was " + componentObj.GetId()+" "+componentObj.GetTag()+" "+componentObj.GetComponentType());
                     }
-                    Debug.Log(" < === END Component " + componentObj.GetTag() + " === >");
                 }
             }
 
@@ -108,57 +107,32 @@ namespace AimXRToolkit.Managers
             }
             foreach(var interactable in this._interactables)
             {
-                string pattern = @"].events.Start = function\(\)\s+(.*?)\s+end";
-                Match match = Regex.Match(interactable.GetComponentObj().GetScript(), pattern, RegexOptions.Singleline);
-
-                if (match.Success)
-                {
-                    string startFunctionCode = match.Groups[1].Value;
-                    Debug.Log("Code de la fonction Start:\n" + startFunctionCode);
-                    try
-                    {
-                        
-                        foreach(var line in startFunctionCode.Split("\n"))
-                        {
-                            Debug.Log(line);
-                            this._script.DoString(line);
-                        }
-                        Debug.Log("OK START");
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.Log("Fail to load start code");
-                        Debug.Log(e);
-                    }
-                }
-                else
-                {
-                    Debug.Log("La fonction Start n'a pas été trouvée.");
-                }
-
-                /*Closure function = null;
+                Closure function = null;
                 try
                 {
                     function = this._script.Globals.Get(interactable.GetComponentObj().GetTag()).Table.Get("events").Table.Get("Start").Function;
-                    Debug.Log("function");
-                    Debug.Log("component : "+interactable.GetComponentObj().GetTag()+" id :"+interactable.GetComponentObj().GetId()+"\n"+interactable.GetComponentObj().GetScript());
-                    Debug.Log(function);
+                    Debug.Log("component : " + interactable.GetComponentObj().GetTag() + " id :" + interactable.GetComponentObj().GetId() + "\n" + interactable.GetComponentObj().GetScript());
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("No Start event for component ");
                     Debug.Log(e);
                     continue;
                 }
                 try
                 {
-                    function.Call();
+                    if (function != null)
+                    {
+                        function.Call();
+                        Debug.Log("Start OK");
+                    }
+                    else
+                        Debug.Log("No function");
                 }
                 catch (Exception e)
                 {
                     Debug.Log("Fail to call Start function");
                     Debug.Log(e);
-                }*/
+                }
             }
         }
 
