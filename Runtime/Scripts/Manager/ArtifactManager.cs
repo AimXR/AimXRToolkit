@@ -175,7 +175,6 @@ namespace AimXRToolkit.Managers
             }
             watch.Stop();
             var elapsedMs = watch.ElapsedMilliseconds;
-            Debug.Log("elapsedMs " + elapsedMs);
         }
 
         private Interactable ParseComponent(Models.Component component, GameObject obj)

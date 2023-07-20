@@ -29,7 +29,7 @@ namespace AimXRToolkit.Managers
         private Models.Workplace _workplace = null!;
         // instances ids and their corresponding artifact managers
         private Dictionary<int, ArtifactManager> _artifacts = null;
-        // instances ids and their corresponding artifact managers
+        // artifacts ids and their corresponding artifact managers
         private Dictionary<int, ArtifactManager> _artifactInstances = null;
 
         public void Start()
@@ -54,7 +54,6 @@ namespace AimXRToolkit.Managers
                     Debug.Log("Fail to load artifact " + instance.artifactId);
                     Debug.LogError(e);
                 }
-
             }
         }
 
